@@ -1,0 +1,12 @@
+# Migraciones de Alembic: autogeneradas (alembic revision --autogenerate),
+# nadie las escribe a mano. Se excluyen del gráfico de "Languages" de GitHub
+# para que ese gráfico refleje el esfuerzo real de desarrollo del proyecto.
+backend/alembic/versions/*.py linguist-generated
+
+# package-lock.json: generado por npm, no escrito a mano
+frontend/package-lock.json linguist-generated
+
+# Bocetos de Stitch (herramienta de diseño IA de Google): HTML exportado
+# automáticamente, nunca escrito ni editado a mano — son mockups de
+# referencia visual, no código de producción
+bocetos/**/code.html linguist-generated
