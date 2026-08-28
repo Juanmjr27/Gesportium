@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gesportium - Mi Entrenamiento</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;family=Montserrat:ital,wght@0,700;0,800;0,900;1,800;1,900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#353534",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "on-secondary-container": "#b7b5b4",
+                        "on-surface": "#e5e2e1",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "surface-container-low": "#1c1b1b",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "tertiary-fixed": "#e4e2e1",
+                        "inverse-primary": "#506600",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-background": "#e5e2e1",
+                        "tertiary": "#ffffff",
+                        "on-primary-container": "#556d00",
+                        "primary-fixed": "#c3f400",
+                        "secondary": "#c8c6c5",
+                        "on-tertiary-container": "#656464",
+                        "tertiary-fixed-dim": "#c8c6c6",
+                        "on-secondary": "#313030",
+                        "primary": "#ffffff",
+                        "on-tertiary": "#303030",
+                        "on-error-container": "#ffdad6",
+                        "background": "#131313",
+                        "on-surface-variant": "#c4c9ac",
+                        "surface-tint": "#abd600",
+                        "inverse-on-surface": "#313030",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "primary-container": "#c3f400",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "surface-container": "#201f1f",
+                        "secondary-container": "#474746",
+                        "outline-variant": "#444933",
+                        "secondary-fixed": "#e5e2e1",
+                        "surface-container-high": "#2a2a2a",
+                        "primary-fixed-dim": "#abd600",
+                        "inverse-surface": "#e5e2e1",
+                        "tertiary-container": "#e4e2e1",
+                        "on-secondary-fixed-variant": "#474746",
+                        "outline": "#8e9379",
+                        "surface": "#131313",
+                        "surface-dim": "#131313",
+                        "on-primary": "#283500",
+                        "surface-container-highest": "#353534",
+                        "on-error": "#690005",
+                        "on-primary-fixed": "#161e00",
+                        "error-container": "#93000a",
+                        "surface-bright": "#3a3939",
+                        "error": "#ffb4ab"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "display-lg-mobile": ["Montserrat"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Montserrat"],
+                        "display-lg": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "label-bold": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg-mobile": ["36px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-bold": ["14px", { "lineHeight": "20px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom Glassmorphism Utilities */
+        .glass-panel {
+            background-color: rgba(32, 31, 31, 0.6); /* surface-container */
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-panel-hover:hover {
+            box-shadow: 0 0 20px rgba(195, 244, 0, 0.15); /* primary-fixed */
+            border-top: 1px solid rgba(195, 244, 0, 0.3);
+            border-left: 1px solid rgba(195, 244, 0, 0.3);
+        }
+
+        /* Checkbox Animation */
+        .custom-checkbox-input:checked + .custom-checkbox-visual {
+            background-color: #c3f400; /* primary-fixed */
+            border-color: #c3f400;
+        }
+        
+        .custom-checkbox-input:checked + .custom-checkbox-visual .check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Dynamic Skew */
+        .skew-element {
+            transform: skew(-2deg);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen pb-24 pt-16 flex flex-col selection:bg-primary-fixed selection:text-on-primary-fixed antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-md border-b border-white/10 shadow-none flex justify-between items-center px-margin-mobile h-16 w-full md:px-margin-desktop">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed dark:text-primary-fixed-dim" style="font-variation-settings: 'FILL' 1;">fitness_center</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg italic uppercase tracking-tighter text-primary-fixed dark:text-primary-fixed-dim">
+            Gesportium
+        </h1>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 cursor-pointer">notifications</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-gutter flex flex-col gap-10">
+<!-- Header Section -->
+<section class="flex flex-col gap-2 mt-4 relative">
+<div class="absolute -left-4 top-0 w-1 h-full bg-primary-fixed rounded-r-full skew-element"></div>
+<p class="font-label-sm text-label-sm text-primary-fixed uppercase tracking-widest">Día 4 - Fase de Fuerza</p>
+<h2 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-on-surface uppercase tracking-tighter">Mi Entrenamiento</h2>
+<!-- Overall Progress -->
+<div class="mt-4 flex flex-col gap-1 w-full max-w-md">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Progreso de hoy</span>
+<span class="font-label-bold text-label-bold text-primary-fixed">0%</span>
+</div>
+<div class="h-1 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary-fixed w-0 transition-all duration-500 ease-out" id="main-progress-bar"></div>
+</div>
+</div>
+</section>
+<!-- Exercises List -->
+<section class="flex flex-col gap-4">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed">list_alt</span>
+                Ejercicios
+            </h3>
+<div class="flex flex-col gap-4" id="exercise-list">
+<!-- Exercise 1: Deadlift -->
+<article class="glass-panel glass-panel-hover rounded-xl p-4 md:p-gutter transition-all duration-300 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center group">
+<div class="flex-1 flex flex-col gap-2 w-full">
+<div class="flex justify-between items-start">
+<div>
+<span class="inline-block px-2 py-1 border border-primary-fixed text-primary-fixed font-label-sm text-label-sm rounded-full mb-2">Fuerza Base</span>
+<h4 class="font-headline-md text-headline-md text-on-surface uppercase leading-none">Deadlift</h4>
+</div>
+<!-- Mobile Checkbox -->
+<label class="md:hidden relative flex items-center justify-center cursor-pointer p-2">
+<input class="custom-checkbox-input sr-only exercise-check" type="checkbox"/>
+<div class="custom-checkbox-visual w-8 h-8 rounded-full border-2 border-on-surface-variant flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined check-icon text-on-primary-fixed opacity-0 scale-50 transition-all font-bold" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</label>
+</div>
+<div class="grid grid-cols-3 gap-2 mt-2 bg-surface-container-highest/50 rounded-lg p-2">
+<div class="flex flex-col items-center p-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Sets</span>
+<span class="font-label-bold text-label-bold text-on-surface">4</span>
+</div>
+<div class="flex flex-col items-center p-1 border-x border-white/5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Reps</span>
+<span class="font-label-bold text-label-bold text-on-surface">5-5-5-3</span>
+</div>
+<div class="flex flex-col items-center p-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Rest</span>
+<span class="font-label-bold text-label-bold text-on-surface">120s</span>
+</div>
+</div>
+</div>
+<!-- Desktop Checkbox -->
+<label class="hidden md:flex relative items-center justify-center cursor-pointer p-4 hover:scale-110 transition-transform">
+<input class="custom-checkbox-input sr-only exercise-check" type="checkbox"/>
+<div class="custom-checkbox-visual w-10 h-10 rounded-full border-2 border-on-surface-variant flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined check-icon text-on-primary-fixed opacity-0 scale-50 transition-all" style="font-size: 24px; font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</label>
+</article>
+<!-- Exercise 2: Squats -->
+<article class="glass-panel glass-panel-hover rounded-xl p-4 md:p-gutter transition-all duration-300 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center group">
+<div class="flex-1 flex flex-col gap-2 w-full">
+<div class="flex justify-between items-start">
+<div>
+<span class="inline-block px-2 py-1 border border-primary-fixed text-primary-fixed font-label-sm text-label-sm rounded-full mb-2">Pierna</span>
+<h4 class="font-headline-md text-headline-md text-on-surface uppercase leading-none">Squats</h4>
+</div>
+<label class="md:hidden relative flex items-center justify-center cursor-pointer p-2">
+<input class="custom-checkbox-input sr-only exercise-check" type="checkbox"/>
+<div class="custom-checkbox-visual w-8 h-8 rounded-full border-2 border-on-surface-variant flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined check-icon text-on-primary-fixed opacity-0 scale-50 transition-all font-bold" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</label>
+</div>
+<div class="grid grid-cols-3 gap-2 mt-2 bg-surface-container-highest/50 rounded-lg p-2">
+<div class="flex flex-col items-center p-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Sets</span>
+<span class="font-label-bold text-label-bold text-on-surface">3</span>
+</div>
+<div class="flex flex-col items-center p-1 border-x border-white/5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Reps</span>
+<span class="font-label-bold text-label-bold text-on-surface">8-10</span>
+</div>
+<div class="flex flex-col items-center p-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Rest</span>
+<span class="font-label-bold text-label-bold text-on-surface">90s</span>
+</div>
+</div>
+</div>
+<label class="hidden md:flex relative items-center justify-center cursor-pointer p-4 hover:scale-110 transition-transform">
+<input class="custom-checkbox-input sr-only exercise-check" type="checkbox"/>
+<div class="custom-checkbox-visual w-10 h-10 rounded-full border-2 border-on-surface-variant flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined check-icon text-on-primary-fixed opacity-0 scale-50 transition-all" style="font-size: 24px; font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</label>
+</article>
+<!-- Exercise 3: Pull-ups -->
+<article class="glass-panel glass-panel-hover rounded-xl p-4 md:p-gutter transition-all duration-300 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center group">
+<div class="flex-1 flex flex-col gap-2 w-full">
+<div class="flex justify-between items-start">
+<div>
+<span class="inline-block px-2 py-1 border border-primary-fixed text-primary-fixed font-label-sm text-label-sm rounded-full mb-2">Espalda / Bodyweight</span>
+<h4 class="font-headline-md text-headline-md text-on-surface uppercase leading-none">Pull-ups</h4>
+</div>
+<label class="md:hidden relative flex items-center justify-center cursor-pointer p-2">
+<input class="custom-checkbox-input sr-only exercise-check" type="checkbox"/>
+<div class="custom-checkbox-visual w-8 h-8 rounded-full border-2 border-on-surface-variant flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined check-icon text-on-primary-fixed opacity-0 scale-50 transition-all font-bold" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</label>
+</div>
+<div class="grid grid-cols-3 gap-2 mt-2 bg-surface-container-highest/50 rounded-lg p-2">
+<div class="flex flex-col items-center p-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Sets</span>
+<span class="font-label-bold text-label-bold text-on-surface">3</span>
+</div>
+<div class="flex flex-col items-center p-1 border-x border-white/5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Reps</span>
+<span class="font-label-bold text-label-bold text-on-surface">Al fallo</span>
+</div>
+<div class="flex flex-col items-center p-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Rest</span>
+<span class="font-label-bold text-label-bold text-on-surface">90s</span>
+</div>
+</div>
+</div>
+<label class="hidden md:flex relative items-center justify-center cursor-pointer p-4 hover:scale-110 transition-transform">
+<input class="custom-checkbox-input sr-only exercise-check" type="checkbox"/>
+<div class="custom-checkbox-visual w-10 h-10 rounded-full border-2 border-on-surface-variant flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined check-icon text-on-primary-fixed opacity-0 scale-50 transition-all" style="font-size: 24px; font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</label>
+</article>
+</div>
+<button class="mt-4 w-full bg-primary-fixed text-on-primary-fixed font-headline-md text-headline-md py-4 rounded-lg uppercase tracking-wide hover:scale-[1.02] transition-transform active:scale-95 shadow-[0_0_20px_rgba(195,244,0,0.2)]">
+                Finalizar Rutina
+            </button>
+</section>
+<hr class="border-t border-white/5 my-4"/>
+<!-- Nutrition Section -->
+<section class="flex flex-col gap-4">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed">restaurant</span>
+                Plan Nutricional
+            </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Macro Summary Card -->
+<div class="glass-panel rounded-xl p-4 md:p-gutter flex flex-col justify-between relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-primary-fixed/5 to-transparent opacity-50"></div>
+<h4 class="font-label-bold text-label-bold text-on-surface-variant uppercase tracking-wider mb-4 relative z-10">Macros de Hoy</h4>
+<div class="flex flex-col gap-3 relative z-10">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface">Proteína</span>
+<span class="font-label-bold text-label-bold text-primary-fixed">180g</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full"><div class="bg-primary-fixed h-full rounded-full w-3/4"></div></div>
+<div class="flex justify-between items-center mt-2">
+<span class="font-body-md text-body-md text-on-surface">Carbos</span>
+<span class="font-label-bold text-label-bold text-on-surface-variant">250g</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full"><div class="bg-surface-variant h-full rounded-full w-1/2"></div></div>
+</div>
+</div>
+<!-- Meal Highlight Card -->
+<div class="glass-panel rounded-xl flex flex-row overflow-hidden relative min-h-[140px]">
+<div class="w-1/3 bg-surface-container-high relative">
+<div class="absolute inset-0 bg-cover bg-center opacity-80 mix-blend-luminosity" data-alt="A highly detailed close up of a high-performance athlete's post-workout meal featuring grilled chicken breast, sweet potato mash, and steamed broccoli. The lighting is moody and dramatic with deep shadows and a stark spotlight illuminating the vibrant green of the broccoli and the texture of the chicken. The style is modern, energetic, and highly professional, fitting a premium fitness app." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB_7mm-XyggPCII8DQoyWWtu4htf489nYpbVtFBl6F5asbCLu9eLz0hRUroS9sEWzjKEIXbqMMCMQnWEdZnHu5O23uF6LY7XDTHKqEgXjK7Tv_4URahcY9WRORTA-GL4GP6f-TBbqGaJXmJIFt97Ae0n0n7pbNUn2onRUCvMUlIqBGBLufikYJgd2dmM30LfhnwxTHDGU-VUXEi4xojgo_NJQ_g7MYYX5YF76_gz89MudLPWLuTUHHMYg')"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-transparent to-surface-container/90"></div>
+</div>
+<div class="w-2/3 p-4 flex flex-col justify-center">
+<span class="font-label-sm text-label-sm text-primary-fixed uppercase tracking-widest mb-1">Post-Entreno</span>
+<h4 class="font-label-bold text-label-bold text-on-surface mb-2">Pollo con Boniato</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Alta carga de proteínas y carbohidratos de asimilación rápida para recuperación.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-full bg-surface/80 backdrop-blur-xl border-t border-white/5 shadow-[0_-4px_20px_rgba(0,0,0,0.5)] md:hidden">
+<div class="flex justify-around items-center h-20 pb-safe px-2">
+<!-- Item 1: Home -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<!-- Item 2: Clases -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">calendar_today</span>
+<span class="font-label-sm text-label-sm">Clases</span>
+</a>
+<!-- Item 3: Entrenamiento (ACTIVE) -->
+<a class="flex flex-col items-center justify-center text-primary-fixed font-label-bold active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mb-1 text-primary-fixed" style="font-variation-settings: 'FILL' 1;">fitness_center</span>
+<span class="font-label-sm text-label-sm">Entrenamiento</span>
+</a>
+<!-- Item 4: Pagos -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">payments</span>
+<span class="font-label-sm text-label-sm">Pagos</span>
+</a>
+<!-- Item 5: Perfil -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="font-label-sm text-label-sm">Perfil</span>
+</a>
+</div>
+</nav>
+<script>
+        // Simple logic for the progress bar based on checkboxes
+        document.addEventListener('DOMContentLoaded', () => {
+            const checkboxes = document.querySelectorAll('.exercise-check');
+            const progressBar = document.getElementById('main-progress-bar');
+            const progressText = progressBar.parentElement.previousElementSibling.lastElementChild;
+
+            const updateProgress = () => {
+                const total = checkboxes.length / 2; // Assuming desktop and mobile checkboxes are paired per article. Better to count distinct articles.
+                // Let's count based on the articles
+                const articles = document.querySelectorAll('#exercise-list article');
+                let completed = 0;
+                
+                articles.forEach(article => {
+                    // Check if either mobile or desktop checkbox is checked within the article
+                    const articleChecks = article.querySelectorAll('.exercise-check');
+                    let isChecked = false;
+                    articleChecks.forEach(cb => { if(cb.checked) isChecked = true; });
+                    if(isChecked) completed++;
+                    
+                    // Sync the hidden/visible checkboxes inside the same article
+                    articleChecks.forEach(cb => {
+                       cb.addEventListener('change', (e) => {
+                           articleChecks.forEach(sibling => sibling.checked = e.target.checked);
+                       });
+                    });
+                });
+
+                const percentage = total === 0 ? 0 : Math.round((completed / articles.length) * 100);
+                progressBar.style.width = `${percentage}%`;
+                progressText.textContent = `${percentage}%`;
+            };
+
+            // Initial setup for syncing paired checkboxes (mobile vs desktop views)
+            const articles = document.querySelectorAll('#exercise-list article');
+            articles.forEach(article => {
+                const articleChecks = article.querySelectorAll('.exercise-check');
+                articleChecks.forEach(cb => {
+                   cb.addEventListener('change', (e) => {
+                       articleChecks.forEach(sibling => sibling.checked = e.target.checked);
+                       updateProgress();
+                   });
+                });
+            });
+
+            updateProgress();
+        });
+    </script>
+</body></html>

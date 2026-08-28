@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gesportium - Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed": "#e1e0ff",
+                      "inverse-primary": "#b7c4ff",
+                      "on-tertiary-fixed": "#3c0800",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-fixed-variant": "#891e00",
+                      "primary-fixed-dim": "#b7c4ff",
+                      "inverse-on-surface": "#ecf1ff",
+                      "on-tertiary": "#ffffff",
+                      "primary": "#003ec7",
+                      "on-error-container": "#93000a",
+                      "surface": "#f9f9ff",
+                      "surface-tint": "#004ced",
+                      "on-background": "#111c2d",
+                      "tertiary-fixed-dim": "#ffb4a1",
+                      "on-surface": "#111c2d",
+                      "secondary-container": "#6063ee",
+                      "surface-container-high": "#dee8ff",
+                      "on-primary-fixed": "#001452",
+                      "on-primary-container": "#dfe3ff",
+                      "surface-bright": "#f9f9ff",
+                      "secondary-fixed-dim": "#c0c1ff",
+                      "inverse-surface": "#263143",
+                      "on-tertiary-container": "#ffddd5",
+                      "surface-container-low": "#f0f3ff",
+                      "surface-dim": "#cfdaf2",
+                      "outline": "#737688",
+                      "outline-variant": "#c3c5d9",
+                      "tertiary-container": "#bf3003",
+                      "tertiary-fixed": "#ffdbd2",
+                      "on-error": "#ffffff",
+                      "surface-container": "#e7eeff",
+                      "on-secondary-fixed-variant": "#2f2ebe",
+                      "primary-container": "#0052ff",
+                      "on-secondary-fixed": "#07006c",
+                      "secondary": "#4648d4",
+                      "error": "#ba1a1a",
+                      "background": "#f9f9ff",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed": "#dde1ff",
+                      "surface-container-highest": "#d8e3fb",
+                      "on-primary-fixed-variant": "#0038b6",
+                      "on-secondary": "#ffffff",
+                      "on-surface-variant": "#434656",
+                      "error-container": "#ffdad6",
+                      "surface-variant": "#d8e3fb",
+                      "on-secondary-container": "#fffbff",
+                      "tertiary": "#952200"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "container-max": "1440px",
+                      "xs": "4px",
+                      "xl": "40px",
+                      "sidebar-width": "260px",
+                      "md": "16px",
+                      "sm": "8px",
+                      "lg": "24px",
+                      "base": "4px",
+                      "gutter": "20px"
+              },
+              "fontFamily": {
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "button": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-xl": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-md": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "button": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-xl": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full py-lg px-md fixed left-0 top-0 w-sidebar-width bg-inverse-surface z-50">
+<div class="flex items-center gap-3 mb-xl px-sm">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-headline-md">
+                G
+            </div>
+<div>
+<h1 class="text-headline-lg font-headline-lg text-on-primary-fixed">Gesportium</h1>
+<p class="text-label-sm font-label-sm text-outline-variant uppercase">Facility Manager</p>
+</div>
+</div>
+<ul class="flex flex-col gap-1 flex-1 font-body-md text-body-md">
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded border-l-4 border-primary bg-secondary-container/20 text-on-primary-fixed font-bold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded border-l-4 border-transparent text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">location_on</span>
+                    Sedes
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded border-l-4 border-transparent text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+                    Socios
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded border-l-4 border-transparent text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">event_repeat</span>
+                    Clases
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded border-l-4 border-transparent text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+                    Entrenadores
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded border-l-4 border-transparent text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">payments</span>
+                    Pagos
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded border-l-4 border-transparent text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+                    Leads
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded border-l-4 border-transparent text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">assessment</span>
+                    Informes
+                </a>
+</li>
+</ul>
+<div class="mt-auto">
+<a class="flex items-center gap-3 px-3 py-2 rounded border-l-4 border-transparent text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Configuración
+            </a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-sidebar-width flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center h-16 px-lg w-full bg-surface border-b border-outline-variant sticky top-0 z-40">
+<div class="flex items-center">
+<nav class="font-label-sm text-label-sm text-on-surface-variant">
+                    Breadcrumbs / <span class="text-primary font-bold">Dashboard</span>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-low transition-all focus:ring-2 focus:ring-primary">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-low transition-all focus:ring-2 focus:ring-primary">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant cursor-pointer">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate manager in a modern office setting. The lighting is bright and even, highlighting a friendly but focused expression. The background is slightly blurred showing modern office architecture. The overall style is clean, corporate, and high-quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoxHJjGFbPqE8xd6UhMoT7C_1YsfoFhTRFSNEFSmyr04m-ydcWeGNgpSZec5XZ1B_00Yqy6WxdRrMIUqUPnC0HIMFS6a3bcrRWQyEqc391FG_s38ntdazUY_TGB5LCFDaITT_w44C-EkHV6A8E2B-1U_urCRG1HkcJFDTmG0bdFz7VWBn1zzCLA_hpn8fciqB8OfBek1M04zKcO-Pwqptr8vsir4QSzCOxr92D6Yg-iYHkHnysMVzlSQ"/>
+</div>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="p-lg flex-1 overflow-y-auto">
+<!-- Page Header -->
+<div class="mb-lg flex justify-between items-end">
+<div>
+<h2 class="text-headline-xl font-headline-xl text-on-surface mb-1">Panel General</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant">Overview of key metrics and recent activity.</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 border border-outline-variant rounded text-button font-button text-on-surface hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">download</span>
+                        Export
+                    </button>
+<button class="px-4 py-2 bg-primary rounded text-button font-button text-on-primary hover:bg-primary-container transition-colors shadow-sm">
+                        New Report
+                    </button>
+</div>
+</div>
+<!-- KPI Cards Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg mb-lg">
+<!-- KPI 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md shadow-[0_4px_6px_-1px_rgb(0,0,0,0.05)] flex flex-col hover:border-outline transition-colors group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-label-sm font-label-sm text-outline uppercase tracking-wider">Socios Activos</h3>
+<span class="material-symbols-outlined text-outline-variant">group</span>
+</div>
+<div class="flex items-end gap-3 mt-auto">
+<span class="text-headline-xl font-headline-xl text-on-surface leading-none">2,450</span>
+<div class="flex items-center text-sm font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+                            +12% <span class="text-xs text-emerald-600/70 ml-1">vs last mo</span>
+</div>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md shadow-[0_4px_6px_-1px_rgb(0,0,0,0.05)] flex flex-col hover:border-outline transition-colors group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-label-sm font-label-sm text-outline uppercase tracking-wider">Ingresos Mes</h3>
+<span class="material-symbols-outlined text-outline-variant">payments</span>
+</div>
+<div class="flex items-end gap-3 mt-auto">
+<span class="text-headline-xl font-headline-xl text-on-surface leading-none">45.200 €</span>
+<div class="flex items-center text-sm font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+                            +5%
+                        </div>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md shadow-[0_4px_6px_-1px_rgb(0,0,0,0.05)] flex flex-col hover:border-outline transition-colors group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-label-sm font-label-sm text-outline uppercase tracking-wider">Ocupación Media</h3>
+<span class="material-symbols-outlined text-outline-variant">pie_chart</span>
+</div>
+<div class="flex items-end gap-3 mt-auto">
+<span class="text-headline-xl font-headline-xl text-on-surface leading-none">68%</span>
+<div class="flex items-center text-sm font-medium text-outline-variant bg-surface-container px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-[14px]">horizontal_rule</span>
+                            Stable
+                        </div>
+</div>
+</div>
+</div>
+<!-- Bento Grid Main Content -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+<!-- Main Chart Area (Spans 8 columns on large screens) -->
+<div class="lg:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-lg shadow-[0_4px_6px_-1px_rgb(0,0,0,0.05)] flex flex-col">
+<div class="p-md border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Weekly Attendance</h3>
+<div class="flex gap-2">
+<button class="px-2 py-1 text-label-sm font-label-sm border border-outline-variant rounded hover:bg-surface-container-low transition-colors">This Week</button>
+<button class="px-2 py-1 text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface transition-colors">Last Week</button>
+</div>
+</div>
+<div class="p-md flex-1 min-h-[300px] flex items-center justify-center bg-surface-bright relative">
+<!-- Placeholder for a real chart library -->
+<div aria-hidden="true" class="w-full h-full relative">
+<!-- Faux Chart Grid -->
+<div class="absolute inset-0 flex flex-col justify-between opacity-10">
+<div class="border-b border-outline w-full h-0"></div>
+<div class="border-b border-outline w-full h-0"></div>
+<div class="border-b border-outline w-full h-0"></div>
+<div class="border-b border-outline w-full h-0"></div>
+<div class="border-b border-outline w-full h-0"></div>
+</div>
+<!-- Faux Chart Line (using SVG for visual placeholder) -->
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0 80 Q 10 70, 20 60 T 40 50 T 60 70 T 80 40 T 100 30" fill="none" stroke="#003ec7" stroke-linecap="round" stroke-width="2"></path>
+<path d="M0 80 Q 10 70, 20 60 T 40 50 T 60 70 T 80 40 T 100 30 L 100 100 L 0 100 Z" fill="url(#blue-gradient)" opacity="0.1"></path>
+<defs>
+<lineargradient id="blue-gradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#003ec7"></stop>
+<stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+</div>
+</div>
+<!-- Side Panel (Spans 4 columns) -->
+<div class="lg:col-span-4 flex flex-col gap-lg">
+<!-- Pie Chart Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg shadow-[0_4px_6px_-1px_rgb(0,0,0,0.05)] flex-1 flex flex-col">
+<div class="p-md border-b border-outline-variant">
+<h3 class="font-headline-md text-headline-md text-on-surface">Membership Types</h3>
+</div>
+<div class="p-md flex-1 flex flex-col justify-center items-center">
+<!-- Faux Donut Chart -->
+<div class="relative w-40 h-40 mb-4">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="40" stroke="#e1e0ff" stroke-width="20"></circle>
+<!-- 60% segment -->
+<circle cx="50" cy="50" fill="none" r="40" stroke="#003ec7" stroke-dasharray="251.2" stroke-dashoffset="100.48" stroke-width="20"></circle>
+<!-- 25% segment -->
+<circle cx="50" cy="50" fill="none" r="40" stroke="#6063ee" stroke-dasharray="251.2" stroke-dashoffset="188.4" stroke-width="20" transform="rotate(216 50 50)"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center flex-col">
+<span class="text-headline-md font-headline-md text-on-surface">60%</span>
+<span class="text-xs text-outline-variant">Premium</span>
+</div>
+</div>
+<div class="w-full flex justify-center gap-4 text-label-sm font-label-sm">
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary"></span> Premium</div>
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary-container"></span> Basic</div>
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary-fixed"></span> Trial</div>
+</div>
+</div>
+</div>
+<!-- Activity Feed Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg shadow-[0_4px_6px_-1px_rgb(0,0,0,0.05)] flex flex-col">
+<div class="p-md border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Recent Check-ins</h3>
+<button class="text-label-sm font-label-sm text-primary hover:underline">View All</button>
+</div>
+<div class="p-0">
+<ul class="divide-y divide-outline-variant">
+<!-- Feed Item 1 -->
+<li class="p-3 hover:bg-surface-container-low transition-colors flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden">
+<img alt="Member Avatar" class="w-full h-full object-cover" data-alt="A small circular avatar showing a smiling young woman in athletic wear. Clean white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPd5f-_MUA-Yo2Ol9egvbBA7JNcOJzjzDzqVVu7eLLzhXz1uHdtKCgVQm2bpRd2lM7G_jO54WgRm8DwQCrz68jOvUx4Pis595-SireWmah6-B1BhtBhpXDhGKAPk37QD4Z_8l6cEBAqGMSZkmWTtO8nO8gUu9Y3LMHIWNcWIvo_-bS8iF6IsR81J6xRdyw2lhao7lRqH-u7VTQfMymC3xlHOAjSLAYGpFr2_aw1bo52j4MmKrqV0ks1A"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-body-md font-body-md text-on-surface truncate">Maria Garcia</p>
+<p class="text-xs text-outline-variant truncate">Premium Member</p>
+</div>
+<div class="text-xs text-outline-variant">2 min ago</div>
+</li>
+<!-- Feed Item 2 -->
+<li class="p-3 hover:bg-surface-container-low transition-colors flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden">
+<img alt="Member Avatar" class="w-full h-full object-cover" data-alt="A small circular avatar showing a man in his 30s with a short beard. Clean white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzpC_65qBouJ7kewNMa0T4YO9yWzE-fOwYhZ5v7D-KKRKtgpp-Uq_p2xbLcyEvf0ha0gNyf-SAxKUA6eBTprlfZyplArYUH5F4gCn0r8Vl1EM8KSgH6ZpaVooWdPwc5Zdoi9-DxtGxV2W-p2_WES7LpjryOmPFyy8mcDw5MIMXWJpcdxfZuIeXC_nQ4qM5cgfDw8EZsP9HGT5br0exKbnOWdcY4daDNjFSFtTL3XavOU_rKRAax-9TXA"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-body-md font-body-md text-on-surface truncate">Carlos Lopez</p>
+<p class="text-xs text-outline-variant truncate">Basic Member</p>
+</div>
+<div class="text-xs text-outline-variant">15 min ago</div>
+</li>
+<!-- Feed Item 3 -->
+<li class="p-3 hover:bg-surface-container-low transition-colors flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold text-xs">
+                                        AL
+                                    </div>
+<div class="flex-1 min-w-0">
+<p class="text-body-md font-body-md text-on-surface truncate">Ana Martinez</p>
+<p class="text-xs text-outline-variant truncate">Trial Member</p>
+</div>
+<div class="text-xs text-outline-variant">42 min ago</div>
+</li>
+<!-- Feed Item 4 -->
+<li class="p-3 hover:bg-surface-container-low transition-colors flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden">
+<img alt="Member Avatar" class="w-full h-full object-cover" data-alt="A small circular avatar showing an older gentleman smiling. Clean white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2qFWp9J9Q_6oAOjFLmYPLDODqxsml64yzD-ysQPJTLopM8Woxtxu3WuQ9Xp0_5B2udMGXPS3lrfyX62KGP8tv3UYxMiXxuxuR0R1FFxtodrmmbqJTcJbF2Us3xVvQiQHcowrJTz3DrlbnRW7eGLEh9ZtuTGoTSsDcYHExTimcS4ZD4PFtplZK6nLAICG21qEfTnN4-zhyjtVSvG0Sni0vaZHZjgxYj422eMZEZWJzHNwxBAcr7HaPUQ"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-body-md font-body-md text-on-surface truncate">Javier Fernandez</p>
+<p class="text-xs text-outline-variant truncate">Premium Member</p>
+</div>
+<div class="text-xs text-outline-variant">1 hr ago</div>
+</li>
+<!-- Feed Item 5 -->
+<li class="p-3 hover:bg-surface-container-low transition-colors flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-xs">
+                                        SP
+                                    </div>
+<div class="flex-1 min-w-0">
+<p class="text-body-md font-body-md text-on-surface truncate">Sofia Perez</p>
+<p class="text-xs text-outline-variant truncate">Basic Member</p>
+</div>
+<div class="text-xs text-outline-variant">2 hrs ago</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

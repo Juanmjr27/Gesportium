@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gesportium - Calendario de Clases</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#e1e0ff",
+                        "inverse-primary": "#b7c4ff",
+                        "on-tertiary-fixed": "#3c0800",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#891e00",
+                        "primary-fixed-dim": "#b7c4ff",
+                        "inverse-on-surface": "#ecf1ff",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#003ec7",
+                        "on-error-container": "#93000a",
+                        "surface": "#f9f9ff",
+                        "surface-tint": "#004ced",
+                        "on-background": "#111c2d",
+                        "tertiary-fixed-dim": "#ffb4a1",
+                        "on-surface": "#111c2d",
+                        "secondary-container": "#6063ee",
+                        "surface-container-high": "#dee8ff",
+                        "on-primary-fixed": "#001452",
+                        "on-primary-container": "#dfe3ff",
+                        "surface-bright": "#f9f9ff",
+                        "secondary-fixed-dim": "#c0c1ff",
+                        "inverse-surface": "#263143",
+                        "on-tertiary-container": "#ffddd5",
+                        "surface-container-low": "#f0f3ff",
+                        "surface-dim": "#cfdaf2",
+                        "outline": "#737688",
+                        "outline-variant": "#c3c5d9",
+                        "tertiary-container": "#bf3003",
+                        "tertiary-fixed": "#ffdbd2",
+                        "on-error": "#ffffff",
+                        "surface-container": "#e7eeff",
+                        "on-secondary-fixed-variant": "#2f2ebe",
+                        "primary-container": "#0052ff",
+                        "on-secondary-fixed": "#07006c",
+                        "secondary": "#4648d4",
+                        "error": "#ba1a1a",
+                        "background": "#f9f9ff",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#dde1ff",
+                        "surface-container-highest": "#d8e3fb",
+                        "on-primary-fixed-variant": "#0038b6",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#434656",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#d8e3fb",
+                        "on-secondary-container": "#fffbff",
+                        "tertiary": "#952200"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "xs": "4px",
+                        "xl": "40px",
+                        "sidebar-width": "260px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "gutter": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "button": ["Inter"],
+                        "label-sm": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "button": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                },
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-hidden h-screen flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex fixed left-0 top-0 h-full w-[260px] bg-inverse-surface flex-col py-lg px-md z-50">
+<div class="mb-xl px-sm">
+<h1 class="font-headline-lg text-headline-lg text-on-primary-fixed mb-xs flex items-center gap-sm">
+<img alt="Gym Chain Logo" class="w-8 h-8 rounded-lg object-cover" data-alt="A clean, minimalist abstract geometric logo representing a gym chain, using deep blue and bright white colors in a corporate modern style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBXC37j7_mVyVjdg-cjf30ABPmn9g7G4DW1TshVNU_JBf7ngGZtHF7CCqzuntctppXBFPzjJWriggHUHLibEEOAzxn75Y1yN8sblaCrE2rhfhQhe-aGLKM7EKvlxgDGy8H7CDf9Gvq9Kemt_JPVBNdk6eWlQ7ts-B1WxNru85wlE-kRFbBE3Nc4aijpBzLP3W_Bibc5-mQS4VHgbTrpwkeN0hTwSa4tgv0Ra62Lzej6XT60vnWnuC8Nw"/>
+                Gesportium
+            </h1>
+<p class="font-body-sm text-on-surface-variant">Facility Manager</p>
+</div>
+<ul class="flex-1 flex flex-col gap-xs overflow-y-auto">
+<li><a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-95 duration-100" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="font-button text-button">Dashboard</span></a></li>
+<li><a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-95 duration-100" href="#"><span class="material-symbols-outlined text-[20px]">location_on</span><span class="font-button text-button">Sedes</span></a></li>
+<li><a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-95 duration-100" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span class="font-button text-button">Socios</span></a></li>
+<li><a class="flex items-center gap-md px-md py-sm rounded-lg border-l-4 border-primary bg-secondary-container/20 text-on-primary-fixed font-bold active:scale-95 duration-100" href="#"><span class="material-symbols-outlined text-[20px] font-variation-settings-'FILL'-1">event_repeat</span><span class="font-button text-button">Clases</span></a></li>
+<li><a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-95 duration-100" href="#"><span class="material-symbols-outlined text-[20px]">fitness_center</span><span class="font-button text-button">Entrenadores</span></a></li>
+<li><a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-95 duration-100" href="#"><span class="material-symbols-outlined text-[20px]">payments</span><span class="font-button text-button">Pagos</span></a></li>
+<li><a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-95 duration-100" href="#"><span class="material-symbols-outlined text-[20px]">leaderboard</span><span class="font-button text-button">Leads</span></a></li>
+<li><a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-95 duration-100" href="#"><span class="material-symbols-outlined text-[20px]">assessment</span><span class="font-button text-button">Informes</span></a></li>
+<li><a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-95 duration-100" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-button text-button">Configuración</span></a></li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 md:ml-[260px] flex flex-col h-full bg-surface">
+<!-- TopNavBar -->
+<header class="docked full-width top-0 sticky z-40 border-b border-outline-variant bg-surface flex justify-between items-center h-16 px-lg">
+<div class="flex items-center gap-md">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Breadcrumbs / Clases</span>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="pl-xl pr-sm py-sm rounded-full border border-outline-variant bg-surface-container-lowest text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all w-64 h-8 placeholder:text-on-surface-variant/50" placeholder="Buscar clases..." type="text"/>
+</div>
+<button class="w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-low transition-all focus:ring-2 focus:ring-primary">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-low transition-all focus:ring-2 focus:ring-primary">
+<span class="material-symbols-outlined text-[20px]">help_outline</span>
+</button>
+<div class="w-8 h-8 rounded-full border border-outline-variant overflow-hidden cursor-pointer ml-sm">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="A small circular avatar of a professional facility manager looking confident, warm lighting, corporate B2B style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYw5l9ariBkj1OSthFgm4TIErGqSP9kB_REoBPct0GFi33VIYoejrM-nhfkR6eVOcDVZQDfFxJ7XQWR9X64gj-mplufO0EEMFGbRFXhW4iX7QrmZ7tcKklvTcJs7KfpZgmCddi1h0UFiemcuPrwYKFthUgG--1Tgnm1OZPvNs9YorWaY8ikGTDUvgEzldwM0CSPEJbvVynfdqNMU07QwshOlINUYDUvDtU76UN-lGVOUncAgnPmfl9lw"/>
+</div>
+</div>
+</header>
+<!-- Main Scrollable Canvas -->
+<main class="flex-1 overflow-auto p-lg flex flex-col gap-lg bg-surface">
+<!-- Page Header -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-md">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface">Calendario de Clases</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Gestiona la programación semanal y la ocupación de las salas.</p>
+</div>
+<div class="flex gap-sm">
+<div class="flex bg-surface-container-high p-xs rounded-lg border border-outline-variant">
+<button class="px-md py-sm rounded font-button text-button text-on-surface bg-surface shadow-sm text-primary">Semana</button>
+<button class="px-md py-sm rounded font-button text-button text-on-surface-variant hover:text-on-surface">Día</button>
+</div>
+<button class="bg-primary text-on-primary px-md py-sm rounded-lg font-button text-button hover:bg-primary-container transition-colors flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                        Nueva Clase
+                    </button>
+</div>
+</div>
+<!-- Calendar Filter Bar -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-sm flex items-center gap-md">
+<button class="p-sm text-on-surface-variant hover:text-on-surface rounded hover:bg-surface-container-low"><span class="material-symbols-outlined">chevron_left</span></button>
+<span class="font-headline-md text-headline-md text-on-surface min-w-[150px] text-center">12 - 18 Octubre</span>
+<button class="p-sm text-on-surface-variant hover:text-on-surface rounded hover:bg-surface-container-low"><span class="material-symbols-outlined">chevron_right</span></button>
+<div class="w-px h-6 bg-outline-variant mx-sm"></div>
+<div class="flex gap-sm">
+<select class="bg-transparent border-none text-body-md font-body-md text-on-surface-variant focus:ring-0 cursor-pointer">
+<option>Todas las Sedes</option>
+<option>Sede Centro</option>
+<option>Sede Norte</option>
+</select>
+<select class="bg-transparent border-none text-body-md font-body-md text-on-surface-variant focus:ring-0 cursor-pointer">
+<option>Todos los Entrenadores</option>
+</select>
+</div>
+</div>
+<!-- Calendar Grid -->
+<div class="flex-1 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col min-h-[600px] shadow-sm">
+<!-- Days Header -->
+<div class="grid grid-cols-[60px_repeat(7,1fr)] border-b border-outline-variant bg-surface-container-low">
+<div class="p-sm border-r border-outline-variant flex items-end justify-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Hora</span>
+</div>
+<div class="p-sm border-r border-outline-variant text-center"><div class="font-label-sm text-label-sm text-on-surface-variant uppercase">Lun</div><div class="font-headline-md text-headline-md mt-xs">12</div></div>
+<div class="p-sm border-r border-outline-variant text-center bg-primary/5 relative">
+<div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+<div class="font-label-sm text-label-sm text-primary uppercase font-bold">Mar</div><div class="font-headline-md text-headline-md text-primary mt-xs">13</div>
+</div>
+<div class="p-sm border-r border-outline-variant text-center"><div class="font-label-sm text-label-sm text-on-surface-variant uppercase">Mié</div><div class="font-headline-md text-headline-md mt-xs">14</div></div>
+<div class="p-sm border-r border-outline-variant text-center"><div class="font-label-sm text-label-sm text-on-surface-variant uppercase">Jue</div><div class="font-headline-md text-headline-md mt-xs">15</div></div>
+<div class="p-sm border-r border-outline-variant text-center"><div class="font-label-sm text-label-sm text-on-surface-variant uppercase">Vie</div><div class="font-headline-md text-headline-md mt-xs">16</div></div>
+<div class="p-sm border-r border-outline-variant text-center"><div class="font-label-sm text-label-sm text-on-surface-variant uppercase">Sáb</div><div class="font-headline-md text-headline-md mt-xs">17</div></div>
+<div class="p-sm text-center"><div class="font-label-sm text-label-sm text-on-surface-variant uppercase">Dom</div><div class="font-headline-md text-headline-md mt-xs">18</div></div>
+</div>
+<!-- Grid Body -->
+<div class="flex-1 overflow-y-auto relative bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSI2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48bGluZSB4MT0iMCIgeTE9IjYwIiB4Mj0iMTAwJSIgeTI9IjYwIiBzdHJva2U9IiNlMmU4ZjAiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==')]">
+<!-- Current Time Line -->
+<div class="absolute top-[280px] left-0 w-full h-px bg-error z-20 flex items-center">
+<div class="w-2 h-2 rounded-full bg-error ml-[56px] -mt-[3.5px]"></div>
+</div>
+<!-- Time Slots & Content Wrapper -->
+<div class="relative grid grid-cols-[60px_repeat(7,1fr)] min-h-[960px]">
+<!-- Time Column -->
+<div class="border-r border-outline-variant flex flex-col pt-sm bg-surface-container-lowest z-10 sticky left-0">
+<div class="h-[60px] flex justify-center"><span class="font-label-sm text-label-sm text-on-surface-variant">07:00</span></div>
+<div class="h-[60px] flex justify-center"><span class="font-label-sm text-label-sm text-on-surface-variant">08:00</span></div>
+<div class="h-[60px] flex justify-center"><span class="font-label-sm text-label-sm text-on-surface-variant">09:00</span></div>
+<div class="h-[60px] flex justify-center"><span class="font-label-sm text-label-sm text-on-surface-variant">10:00</span></div>
+<div class="h-[60px] flex justify-center"><span class="font-label-sm text-label-sm text-on-surface-variant">11:00</span></div>
+<div class="h-[60px] flex justify-center"><span class="font-label-sm text-label-sm text-on-surface-variant">12:00</span></div>
+<div class="h-[60px] flex justify-center"><span class="font-label-sm text-label-sm text-on-surface-variant">13:00</span></div>
+<div class="h-[60px] flex justify-center"><span class="font-label-sm text-label-sm text-on-surface-variant">14:00</span></div>
+<div class="h-[60px] flex justify-center"><span class="font-label-sm text-label-sm text-on-surface-variant">15:00</span></div>
+<div class="h-[60px] flex justify-center"><span class="font-label-sm text-label-sm text-on-surface-variant">16:00</span></div>
+<div class="h-[60px] flex justify-center"><span class="font-label-sm text-label-sm text-on-surface-variant">17:00</span></div>
+<div class="h-[60px] flex justify-center"><span class="font-label-sm text-label-sm text-on-surface-variant">18:00</span></div>
+<div class="h-[60px] flex justify-center"><span class="font-label-sm text-label-sm text-on-surface-variant">19:00</span></div>
+<div class="h-[60px] flex justify-center"><span class="font-label-sm text-label-sm text-on-surface-variant">20:00</span></div>
+<div class="h-[60px] flex justify-center"><span class="font-label-sm text-label-sm text-on-surface-variant">21:00</span></div>
+<div class="h-[60px] flex justify-center"><span class="font-label-sm text-label-sm text-on-surface-variant">22:00</span></div>
+</div>
+<!-- Grid Lines vertical -->
+<div class="border-r border-outline-variant h-full"></div>
+<div class="border-r border-outline-variant h-full bg-primary/5"></div>
+<div class="border-r border-outline-variant h-full"></div>
+<div class="border-r border-outline-variant h-full"></div>
+<div class="border-r border-outline-variant h-full"></div>
+<div class="border-r border-outline-variant h-full"></div>
+<div class="h-full"></div>
+<!-- CLASS CARDS OVERLAY -->
+<!-- Monday -->
+<div class="absolute top-[60px] left-[60px] w-[calc(14.28%-2px)] mx-[1px] h-[55px] bg-[#EEF2FF] border-l-4 border-primary rounded shadow-sm p-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col justify-between overflow-hidden">
+<div class="flex justify-between items-start">
+<span class="font-button text-button text-[#312E81] leading-tight">Yoga Basics</span>
+<span class="font-label-sm text-label-sm bg-white/50 text-[#4338CA] px-1 rounded">18/20</span>
+</div>
+<span class="font-label-sm text-label-sm text-[#4F46E5] flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">person</span> A. Garcia</span>
+</div>
+<!-- Tuesday (Today) -->
+<div class="absolute top-[120px] left-[calc(60px+14.28%)] w-[calc(14.28%-2px)] mx-[1px] h-[55px] bg-[#FFF1F2] border-l-4 border-[#E11D48] rounded shadow-sm p-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col justify-between overflow-hidden">
+<div class="flex justify-between items-start">
+<span class="font-button text-button text-[#881337] leading-tight">HIIT Extreme</span>
+<span class="font-label-sm text-label-sm bg-[#E11D48] text-white px-1 rounded flex items-center gap-1"><span class="material-symbols-outlined text-[10px]">error</span> 25/25</span>
+</div>
+<span class="font-label-sm text-label-sm text-[#BE123C] flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">person</span> M. Silva</span>
+</div>
+<div class="absolute top-[480px] left-[calc(60px+14.28%)] w-[calc(14.28%-2px)] mx-[1px] h-[85px] bg-[#ECFDF5] border-l-4 border-[#059669] rounded shadow-sm p-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col justify-between overflow-hidden">
+<div class="flex justify-between items-start">
+<span class="font-button text-button text-[#064E3B] leading-tight">Pilates Reformer</span>
+<span class="font-label-sm text-label-sm bg-white/50 text-[#047857] px-1 rounded">8/12</span>
+</div>
+<span class="font-label-sm text-label-sm text-[#059669] flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">person</span> L. Torres</span>
+</div>
+<!-- Wednesday -->
+<div class="absolute top-[0px] left-[calc(60px+28.56%)] w-[calc(14.28%-2px)] mx-[1px] h-[55px] bg-[#FEF3C7] border-l-4 border-[#D97706] rounded shadow-sm p-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col justify-between overflow-hidden">
+<div class="flex justify-between items-start">
+<span class="font-button text-button text-[#78350F] leading-tight">Spinning 45'</span>
+<span class="font-label-sm text-label-sm bg-[#D97706] text-white px-1 rounded flex items-center gap-1"><span class="material-symbols-outlined text-[10px]">error</span> 30/30</span>
+</div>
+<span class="font-label-sm text-label-sm text-[#B45309] flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">person</span> P. Mendez</span>
+</div>
+<!-- Thursday -->
+<div class="absolute top-[600px] left-[calc(60px+42.84%)] w-[calc(14.28%-2px)] mx-[1px] h-[115px] bg-[#EEF2FF] border-l-4 border-primary rounded shadow-sm p-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col justify-between overflow-hidden">
+<div class="flex justify-between items-start">
+<span class="font-button text-button text-[#312E81] leading-tight">Zumba Masterclass</span>
+<span class="font-label-sm text-label-sm bg-white/50 text-[#4338CA] px-1 rounded">42/50</span>
+</div>
+<div class="mt-auto">
+<span class="font-label-sm text-label-sm text-[#4F46E5] flex items-center gap-1 mb-1"><span class="material-symbols-outlined text-[12px]">location_on</span> Sala Principal</span>
+<span class="font-label-sm text-label-sm text-[#4F46E5] flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">person</span> C. Ruiz +1</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

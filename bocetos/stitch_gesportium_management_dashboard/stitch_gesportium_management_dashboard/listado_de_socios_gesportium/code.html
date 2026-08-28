@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gesportium - Gestión de Socios</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#e1e0ff",
+                        "inverse-primary": "#b7c4ff",
+                        "on-tertiary-fixed": "#3c0800",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#891e00",
+                        "primary-fixed-dim": "#b7c4ff",
+                        "inverse-on-surface": "#ecf1ff",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#003ec7",
+                        "on-error-container": "#93000a",
+                        "surface": "#f9f9ff",
+                        "surface-tint": "#004ced",
+                        "on-background": "#111c2d",
+                        "tertiary-fixed-dim": "#ffb4a1",
+                        "on-surface": "#111c2d",
+                        "secondary-container": "#6063ee",
+                        "surface-container-high": "#dee8ff",
+                        "on-primary-fixed": "#001452",
+                        "on-primary-container": "#dfe3ff",
+                        "surface-bright": "#f9f9ff",
+                        "secondary-fixed-dim": "#c0c1ff",
+                        "inverse-surface": "#263143",
+                        "on-tertiary-container": "#ffddd5",
+                        "surface-container-low": "#f0f3ff",
+                        "surface-dim": "#cfdaf2",
+                        "outline": "#737688",
+                        "outline-variant": "#c3c5d9",
+                        "tertiary-container": "#bf3003",
+                        "tertiary-fixed": "#ffdbd2",
+                        "on-error": "#ffffff",
+                        "surface-container": "#e7eeff",
+                        "on-secondary-fixed-variant": "#2f2ebe",
+                        "primary-container": "#0052ff",
+                        "on-secondary-fixed": "#07006c",
+                        "secondary": "#4648d4",
+                        "error": "#ba1a1a",
+                        "background": "#f9f9ff",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#dde1ff",
+                        "surface-container-highest": "#d8e3fb",
+                        "on-primary-fixed-variant": "#0038b6",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#434656",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#d8e3fb",
+                        "on-secondary-container": "#fffbff",
+                        "tertiary": "#952200"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "xs": "4px",
+                        "xl": "40px",
+                        "sidebar-width": "260px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "gutter": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "button": ["Inter"],
+                        "label-sm": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "button": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<!-- SideNavBar -->
+<nav class="hidden md:flex fixed left-0 top-0 h-full w-[260px] bg-inverse-surface flex-col py-lg px-md z-50">
+<div class="flex items-center gap-sm mb-xl px-sm">
+<span class="material-symbols-outlined text-headline-lg font-headline-lg text-on-primary-fixed" style="font-variation-settings: 'FILL' 1;">fitness_center</span>
+<div class="flex flex-col">
+<span class="text-headline-lg font-headline-lg text-on-primary-fixed">Gesportium</span>
+<span class="text-body-md font-body-md text-on-primary-fixed opacity-70">Facility Manager</span>
+</div>
+</div>
+<ul class="flex flex-col gap-xs flex-grow">
+<li>
+<a class="flex items-center gap-md px-sm py-sm rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-sm py-sm rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined">location_on</span>
+<span class="font-body-md text-body-md">Sedes</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-sm py-sm border-l-4 border-primary bg-secondary-container/20 text-on-primary-fixed font-bold active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-body-md text-body-md">Socios</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-sm py-sm rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined">event_repeat</span>
+<span class="font-body-md text-body-md">Clases</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-sm py-sm rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-body-md text-body-md">Entrenadores</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-sm py-sm rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-body-md text-body-md">Pagos</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-sm py-sm rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-body-md text-body-md">Leads</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-sm py-sm rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="font-body-md text-body-md">Informes</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-sm py-sm rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Configuración</span>
+</a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<main class="md:ml-[260px] flex-grow flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-surface border-b border-outline-variant docked full-width top-0 sticky z-40 flex justify-between items-center h-16 px-lg w-full">
+<div class="flex items-center gap-md">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Breadcrumbs / Socios</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-sm rounded-full text-primary hover:bg-surface-container-low transition-all focus:ring-2 focus:ring-primary">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-sm rounded-full text-primary hover:bg-surface-container-low transition-all focus:ring-2 focus:ring-primary">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant ml-sm">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a facility manager in a modern gym setting, neutral expression, crisp lighting, shallow depth of field, high corporate standard, 4k resolution." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkRwrV9JFD6HDyeoqCvLRQJuf-pmsT1cxe8IH8K7mH6VDUUVJOEsvSZRpz3MxNJ7oy3cx6khIufwqzdxlTvW7fS_NVp0nrYl3Caf5-581g1JVLXp9tjUozc91xLFaDhRjz51_xoNPoQSvLZ-6UQvMG04omq49sh7ETSg_pvGa4Wr8jOEZLFjV96Lez_2lXcOUJFtEV29CQLiYYKe8cUX2k4RCxJPx85Tg9obwDNXE1QTDICfr6XVeuUQ"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-lg flex-grow flex flex-col gap-lg">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-md">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-background">Gestión de Socios</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-sm">Manage and review your active gym members.</p>
+</div>
+<button class="bg-primary-container text-on-primary font-button text-button px-lg py-sm rounded-full hover:bg-primary-fixed-variant transition-colors flex items-center gap-sm shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    Alta de Socio
+                </button>
+</div>
+<!-- Filters & Search -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col lg:flex-row gap-md shadow-sm items-end lg:items-center justify-between">
+<div class="flex flex-col lg:flex-row gap-md w-full lg:w-auto flex-grow">
+<div class="relative w-full lg:w-64">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-xl pr-sm py-sm rounded border border-outline-variant bg-surface focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body-md text-body-md text-on-surface transition-all" placeholder="Buscar por nombre o ID..." type="text"/>
+</div>
+<div class="flex gap-md w-full lg:w-auto">
+<select class="rounded border border-outline-variant bg-surface px-sm py-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body-md text-body-md text-on-surface flex-grow lg:flex-grow-0">
+<option value="">Estado: Todos</option>
+<option value="active">Activo</option>
+<option value="inactive">Inactivo</option>
+<option value="pending">Pendiente Pago</option>
+</select>
+<select class="rounded border border-outline-variant bg-surface px-sm py-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body-md text-body-md text-on-surface flex-grow lg:flex-grow-0">
+<option value="">Plan: Todos</option>
+<option value="basic">Básico</option>
+<option value="premium">Premium</option>
+<option value="vip">VIP</option>
+</select>
+<select class="rounded border border-outline-variant bg-surface px-sm py-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body-md text-body-md text-on-surface flex-grow lg:flex-grow-0">
+<option value="">Sede: Todas</option>
+<option value="centro">Sede Centro</option>
+<option value="norte">Sede Norte</option>
+</select>
+</div>
+</div>
+<button class="text-primary hover:text-primary-fixed-variant font-button text-button flex items-center gap-xs px-sm py-xs whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                    Más Filtros
+                </button>
+</div>
+<!-- Data Table -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm flex-grow">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Nombre</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">ID</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Estado</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Plan</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Fecha Alta</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Último Acceso</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider text-right">Acciones</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md divide-y divide-outline-variant/50">
+<tr class="hover:bg-surface-container-highest/30 transition-colors group">
+<td class="py-sm px-md flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-sm">MC</div>
+<span class="font-semibold text-on-surface">Maria Castro</span>
+</td>
+<td class="py-sm px-md text-on-surface-variant">SOC-1042</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-secondary-container/20 text-primary-container">
+                                        Activo
+                                    </span>
+</td>
+<td class="py-sm px-md text-on-surface">Premium Mensual</td>
+<td class="py-sm px-md text-on-surface-variant">12 Ene 2023</td>
+<td class="py-sm px-md text-on-surface-variant">Hoy, 08:30 AM</td>
+<td class="py-sm px-md text-right">
+<button class="text-outline hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-highest/30 transition-colors group">
+<td class="py-sm px-md flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-bold text-sm">JL</div>
+<span class="font-semibold text-on-surface">Juan Lopez</span>
+</td>
+<td class="py-sm px-md text-on-surface-variant">SOC-1098</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-error-container/50 text-on-error-container">
+                                        Pendiente Pago
+                                    </span>
+</td>
+<td class="py-sm px-md text-on-surface">Básico Anual</td>
+<td class="py-sm px-md text-on-surface-variant">05 Mar 2022</td>
+<td class="py-sm px-md text-on-surface-variant">Ayer, 18:45 PM</td>
+<td class="py-sm px-md text-right">
+<button class="text-outline hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-highest/30 transition-colors group">
+<td class="py-sm px-md flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-primary-fixed-dim text-on-primary-fixed flex items-center justify-center font-bold text-sm">AR</div>
+<span class="font-semibold text-on-surface">Ana Rodriguez</span>
+</td>
+<td class="py-sm px-md text-on-surface-variant">SOC-1155</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-secondary-container/20 text-primary-container">
+                                        Activo
+                                    </span>
+</td>
+<td class="py-sm px-md text-on-surface">VIP Semestral</td>
+<td class="py-sm px-md text-on-surface-variant">20 Nov 2023</td>
+<td class="py-sm px-md text-on-surface-variant">Hoy, 12:15 PM</td>
+<td class="py-sm px-md text-right">
+<button class="text-outline hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-highest/30 transition-colors group">
+<td class="py-sm px-md flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface flex items-center justify-center font-bold text-sm">CG</div>
+<span class="font-semibold text-on-surface">Carlos Garcia</span>
+</td>
+<td class="py-sm px-md text-on-surface-variant">SOC-0982</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-surface-variant text-on-surface-variant">
+                                        Inactivo
+                                    </span>
+</td>
+<td class="py-sm px-md text-on-surface">Básico Mensual</td>
+<td class="py-sm px-md text-on-surface-variant">15 Sep 2021</td>
+<td class="py-sm px-md text-on-surface-variant">Hace 2 meses</td>
+<td class="py-sm px-md text-right">
+<button class="text-outline hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-highest/30 transition-colors group">
+<td class="py-sm px-md flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-sm">LM</div>
+<span class="font-semibold text-on-surface">Laura Martinez</span>
+</td>
+<td class="py-sm px-md text-on-surface-variant">SOC-1201</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-secondary-container/20 text-primary-container">
+                                        Activo
+                                    </span>
+</td>
+<td class="py-sm px-md text-on-surface">Premium Anual</td>
+<td class="py-sm px-md text-on-surface-variant">02 Feb 2024</td>
+<td class="py-sm px-md text-on-surface-variant">Hoy, 06:00 AM</td>
+<td class="py-sm px-md text-right">
+<button class="text-outline hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="bg-surface-container-low border-t border-outline-variant p-sm flex items-center justify-between">
+<span class="font-body-md text-body-md text-on-surface-variant pl-sm">Mostrando 1-5 de 243 socios</span>
+<div class="flex gap-xs">
+<button class="p-xs rounded text-on-surface-variant hover:bg-surface-container-highest disabled:opacity-50"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
+<button class="w-8 h-8 rounded bg-primary text-on-primary font-body-md text-body-md flex items-center justify-center">1</button>
+<button class="w-8 h-8 rounded text-on-surface-variant hover:bg-surface-container-highest font-body-md text-body-md flex items-center justify-center">2</button>
+<button class="w-8 h-8 rounded text-on-surface-variant hover:bg-surface-container-highest font-body-md text-body-md flex items-center justify-center">3</button>
+<button class="p-xs rounded text-on-surface-variant hover:bg-surface-container-highest"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

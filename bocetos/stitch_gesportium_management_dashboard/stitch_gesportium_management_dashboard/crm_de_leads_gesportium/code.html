@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gesportium - Leads CRM</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#e1e0ff",
+                    "inverse-primary": "#b7c4ff",
+                    "on-tertiary-fixed": "#3c0800",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#891e00",
+                    "primary-fixed-dim": "#b7c4ff",
+                    "inverse-on-surface": "#ecf1ff",
+                    "on-tertiary": "#ffffff",
+                    "primary": "#003ec7",
+                    "on-error-container": "#93000a",
+                    "surface": "#f9f9ff",
+                    "surface-tint": "#004ced",
+                    "on-background": "#111c2d",
+                    "tertiary-fixed-dim": "#ffb4a1",
+                    "on-surface": "#111c2d",
+                    "secondary-container": "#6063ee",
+                    "surface-container-high": "#dee8ff",
+                    "on-primary-fixed": "#001452",
+                    "on-primary-container": "#dfe3ff",
+                    "surface-bright": "#f9f9ff",
+                    "secondary-fixed-dim": "#c0c1ff",
+                    "inverse-surface": "#263143",
+                    "on-tertiary-container": "#ffddd5",
+                    "surface-container-low": "#f0f3ff",
+                    "surface-dim": "#cfdaf2",
+                    "outline": "#737688",
+                    "outline-variant": "#c3c5d9",
+                    "tertiary-container": "#bf3003",
+                    "tertiary-fixed": "#ffdbd2",
+                    "on-error": "#ffffff",
+                    "surface-container": "#e7eeff",
+                    "on-secondary-fixed-variant": "#2f2ebe",
+                    "primary-container": "#0052ff",
+                    "on-secondary-fixed": "#07006c",
+                    "secondary": "#4648d4",
+                    "error": "#ba1a1a",
+                    "background": "#f9f9ff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#dde1ff",
+                    "surface-container-highest": "#d8e3fb",
+                    "on-primary-fixed-variant": "#0038b6",
+                    "on-secondary": "#ffffff",
+                    "on-surface-variant": "#434656",
+                    "error-container": "#ffdad6",
+                    "surface-variant": "#d8e3fb",
+                    "on-secondary-container": "#fffbff",
+                    "tertiary": "#952200"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "container-max": "1440px",
+                    "xs": "4px",
+                    "xl": "40px",
+                    "sidebar-width": "260px",
+                    "md": "16px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "base": "4px",
+                    "gutter": "20px"
+            },
+            "fontFamily": {
+                    "headline-md": [
+                            "Inter"
+                    ],
+                    "headline-lg": [
+                            "Inter"
+                    ],
+                    "button": [
+                            "Inter"
+                    ],
+                    "label-sm": [
+                            "JetBrains Mono"
+                    ],
+                    "headline-lg-mobile": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "headline-xl": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "headline-md": [
+                            "18px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-lg": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "button": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "20px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-lg": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-xl": [
+                            "36px",
+                            {
+                                    "lineHeight": "44px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ]
+            }
+        },
+        },
+      }
+    </script>
+<style>
+        .kanban-scroll::-webkit-scrollbar {
+            height: 8px;
+        }
+        .kanban-scroll::-webkit-scrollbar-track {
+            background: #f0f3ff; 
+            border-radius: 4px;
+        }
+        .kanban-scroll::-webkit-scrollbar-thumb {
+            background: #c3c5d9; 
+            border-radius: 4px;
+        }
+        .kanban-scroll::-webkit-scrollbar-thumb:hover {
+            background: #737688; 
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-[260px] bg-inverse-surface hidden md:flex flex-col py-lg px-md z-50">
+<div class="mb-xl flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-headline-md font-bold shadow-sm">
+                G
+            </div>
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-primary-fixed">Gesportium</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-secondary-fixed-dim">Facility Manager</p>
+</div>
+</div>
+<div class="flex flex-col gap-sm flex-grow">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Sedes -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">location_on</span>
+<span>Sedes</span>
+</a>
+<!-- Socios -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">group</span>
+<span>Socios</span>
+</a>
+<!-- Clases -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">event_repeat</span>
+<span>Clases</span>
+</a>
+<!-- Entrenadores -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span>Entrenadores</span>
+</a>
+<!-- Pagos -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span>Pagos</span>
+</a>
+<!-- Leads (Active) -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg border-l-4 border-primary bg-secondary-container/20 text-on-primary-fixed font-bold scale-95 duration-100 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span>Leads</span>
+</a>
+<!-- Informes -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span>Informes</span>
+</a>
+</div>
+<div class="mt-auto">
+<!-- Configuración -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Configuración</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-[260px] flex flex-col min-h-screen bg-background">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface docked full-width top-0 sticky z-40 border-b border-outline-variant flex justify-between items-center h-16 px-lg">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-all">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<nav aria-label="Breadcrumb" class="hidden md:block font-label-sm text-label-sm text-on-surface-variant">
+<ol class="flex items-center space-x-2">
+<li><a class="hover:text-primary transition-colors" href="#">Leads</a></li>
+<li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
+<li aria-current="page" class="text-primary font-bold border-b-2 border-primary pb-1">Pipeline de Leads</li>
+</ol>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-all focus:ring-2 focus:ring-primary">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-all focus:ring-2 focus:ring-primary">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden cursor-pointer ml-2">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a facility manager, well-lit, corporate environment, looking approachable yet serious. Subtle blue tones in the background to match the platform's color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpktv2wXVmSws1eD8ou-cA-RAzptFG6KM5kyibVPn0GZnyXbJrH9ahOTSAZWJFKmbyDJVEuxNvfmxKDNbgVr_dPFBwDNaHkkNCi4EbldxFPMLl3WkXFPz4uIf23K2fUgZFouTbpiO_80LwXgKpyxSbxED4XGc1C9bLnXsytcTz7CvbJkvkdhIPqNCaF6zVXAf8M7lQ8C3NH8pjJKLUGYNSN_gIjJGmDH1nVYyWBpRNmCvaqzKE57tIgw"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-4 md:p-lg flex-1 flex flex-col overflow-hidden">
+<!-- Header Actions -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-lg gap-4">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-on-background">Pipeline de Leads</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Manage and track prospective members through the sales funnel.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 bg-surface-container-lowest border border-outline text-on-surface font-button text-button rounded-lg hover:bg-surface-container-low transition-colors shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                        Filter
+                    </button>
+<button class="px-4 py-2 bg-primary-container text-on-primary font-button text-button rounded-lg hover:bg-primary transition-colors shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                        New Lead
+                    </button>
+</div>
+</div>
+<!-- Kanban Board -->
+<div class="flex-1 overflow-x-auto kanban-scroll pb-4 -mx-4 px-4 md:mx-0 md:px-0">
+<div class="flex gap-lg h-full min-w-[1000px] items-start">
+<!-- Column 1: Nuevos -->
+<div class="w-[300px] flex-shrink-0 bg-surface-container-low rounded-xl flex flex-col max-h-full">
+<div class="p-3 border-b border-outline-variant flex justify-between items-center bg-surface-container rounded-t-xl">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                                Nuevos
+                                <span class="bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded-full ml-1">3</span>
+</h3>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+</div>
+<div class="p-3 flex-1 overflow-y-auto flex flex-col gap-3">
+<!-- Lead Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-3 hover:shadow-[0_4px_6px_-1px_rgb(0,0,0,0.05)] cursor-pointer transition-shadow">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-button text-button text-on-surface">Maria Garcia</h4>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm px-2 py-0.5 rounded uppercase">Hot</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">self_improvement</span> Yoga &amp; Pilates
+                                </p>
+<div class="flex justify-between items-center pt-2 border-t border-outline-variant/50">
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">calendar_today</span>
+                                        Today, 10:30 AM
+                                    </div>
+<div class="text-primary font-label-sm text-label-sm font-bold">Score: 85</div>
+</div>
+</div>
+<!-- Lead Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-3 hover:shadow-[0_4px_6px_-1px_rgb(0,0,0,0.05)] cursor-pointer transition-shadow">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-button text-button text-on-surface">Carlos Ruiz</h4>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded uppercase">Warm</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">fitness_center</span> Weightlifting
+                                </p>
+<div class="flex justify-between items-center pt-2 border-t border-outline-variant/50">
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">calendar_today</span>
+                                        Yesterday
+                                    </div>
+<div class="text-primary font-label-sm text-label-sm font-bold">Score: 62</div>
+</div>
+</div>
+<!-- Lead Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-3 hover:shadow-[0_4px_6px_-1px_rgb(0,0,0,0.05)] cursor-pointer transition-shadow">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-button text-button text-on-surface">Ana Lopez</h4>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded uppercase">Warm</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">directions_run</span> Cardio &amp; HIIT
+                                </p>
+<div class="flex justify-between items-center pt-2 border-t border-outline-variant/50">
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">calendar_today</span>
+                                        Yesterday
+                                    </div>
+<div class="text-primary font-label-sm text-label-sm font-bold">Score: 55</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 2: Contactados -->
+<div class="w-[300px] flex-shrink-0 bg-surface-container-low rounded-xl flex flex-col max-h-full">
+<div class="p-3 border-b border-outline-variant flex justify-between items-center bg-surface-container rounded-t-xl">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                                Contactados
+                                <span class="bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded-full ml-1">2</span>
+</h3>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+</div>
+<div class="p-3 flex-1 overflow-y-auto flex flex-col gap-3">
+<!-- Lead Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-3 hover:shadow-[0_4px_6px_-1px_rgb(0,0,0,0.05)] cursor-pointer transition-shadow">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-button text-button text-on-surface">David Martinez</h4>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm px-2 py-0.5 rounded uppercase">Hot</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">pool</span> Swimming
+                                </p>
+<div class="flex justify-between items-center pt-2 border-t border-outline-variant/50">
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">call</span>
+                                        Called 2h ago
+                                    </div>
+<div class="text-primary font-label-sm text-label-sm font-bold">Score: 90</div>
+</div>
+</div>
+<!-- Lead Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-3 hover:shadow-[0_4px_6px_-1px_rgb(0,0,0,0.05)] cursor-pointer transition-shadow">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-button text-button text-on-surface">Laura Gomez</h4>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded uppercase">Warm</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">sports_martial_arts</span> Boxing
+                                </p>
+<div class="flex justify-between items-center pt-2 border-t border-outline-variant/50">
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">mail</span>
+                                        Emailed yesterday
+                                    </div>
+<div class="text-primary font-label-sm text-label-sm font-bold">Score: 70</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 3: Visita Realizada -->
+<div class="w-[300px] flex-shrink-0 bg-surface-container-low rounded-xl flex flex-col max-h-full">
+<div class="p-3 border-b border-outline-variant flex justify-between items-center bg-surface-container rounded-t-xl">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                                Visita Realizada
+                                <span class="bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded-full ml-1">1</span>
+</h3>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+</div>
+<div class="p-3 flex-1 overflow-y-auto flex flex-col gap-3">
+<!-- Lead Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-3 hover:shadow-[0_4px_6px_-1px_rgb(0,0,0,0.05)] cursor-pointer transition-shadow">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-button text-button text-on-surface">Javier Fernandez</h4>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm px-2 py-0.5 rounded uppercase">Hot</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">sports_gymnastics</span> General Access
+                                </p>
+<div class="flex justify-between items-center pt-2 border-t border-outline-variant/50">
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">tour</span>
+                                        Toured May 12
+                                    </div>
+<div class="text-primary font-label-sm text-label-sm font-bold">Score: 95</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 4: Cerrado/Inscrito -->
+<div class="w-[300px] flex-shrink-0 bg-surface-container-low rounded-xl flex flex-col max-h-full opacity-80">
+<div class="p-3 border-b border-outline-variant flex justify-between items-center bg-surface-container rounded-t-xl">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+                                Cerrado/Inscrito
+                                <span class="bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded-full ml-1">2</span>
+</h3>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+</div>
+<div class="p-3 flex-1 overflow-y-auto flex flex-col gap-3">
+<!-- Lead Card (Won) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-3 cursor-default opacity-75">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-button text-button text-on-surface line-through decoration-outline">Elena Sanchez</h4>
+<span class="text-primary font-label-sm text-label-sm px-2 py-0.5 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Won
+                                    </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">card_membership</span> Annual Plan
+                                </p>
+<div class="flex justify-between items-center pt-2 border-t border-outline-variant/50">
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">event_available</span>
+                                        Joined May 10
+                                    </div>
+</div>
+</div>
+<!-- Lead Card (Lost) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-3 cursor-default opacity-75">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-button text-button text-on-surface line-through decoration-outline">Pedro Jimenez</h4>
+<span class="text-error font-label-sm text-label-sm px-2 py-0.5 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">cancel</span> Lost
+                                    </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">fitness_center</span> Personal Training
+                                </p>
+<div class="flex justify-between items-center pt-2 border-t border-outline-variant/50">
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">money_off</span>
+                                        Price Objection
+                                    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

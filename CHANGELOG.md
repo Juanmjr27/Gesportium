@@ -1,5 +1,65 @@
 # Changelog
 
+## 2026-08-28 — Control de versiones del proyecto completo (specs/019)
+
+Hallazgo colateral, del mismo tipo que specs/018: al comitear los fixes de
+007/T10 y 003/T13 se confirmó que el repositorio se había inicializado en
+algún momento con un `git init` que solo llegó a comitear `LICENSE`
+(`cfea2fb`, "Initial commit"). `backend/` se trackeó aparte en esta misma
+sesión como línea base (`cb00815`, previa al fix de specs/018), pero el
+resto del proyecto — `frontend/` completo (incluido el código ya dado por
+"hecho" de todos los módulos, p. ej. el wizard de 016), el historial de
+specs de 001 a 017, `bocetos/` y `roadmap/` — llevaba sin ninguna
+protección de control de versiones desde el inicio del proyecto.
+
+Investigación previa al commit (specs/019, plan.md):
+- **`.gitignore` de raíz**: ya cubría Python/venv/`.env`/`backend/
+  storage/`, pero nada de frontend. `frontend/.gitignore` (scaffold
+  estándar de Vite) ya excluía `node_modules/`/`dist/` por precedencia de
+  git sobre `.gitignore` anidados, pero se añadió también una sección
+  `frontend/` explícita al `.gitignore` de raíz para que sea por sí solo
+  una referencia completa. Confirmado que no hay ningún `.env`/`.env.
+  local` en frontend (el cliente no usa variables de entorno). Excluidas
+  también dos capturas de debug sueltas encontradas en `frontend/`
+  (`t13-debug.png`, `t13-wizard-paso1.png`), residuo de una sesión de
+  verificación manual del wizard de 016, sin relación con el código
+  fuente.
+- **`.claude/` y `.specify/`**: decidido fichero por fichero, no en
+  bloque. `.claude/skills/` (plantillas de los comandos `/speckit-*`) y el
+  resto de `.specify/` (scripts, templates, workflows, `memory/
+  constitution.md`, `integration.json`, `integrations/*.manifest.json`,
+  `init-options.json`) son config limpia del framework spec-kit del
+  proyecto, sin datos personales: se trackean. `.claude/settings.json` y
+  `.claude/settings.local.json` resultaron ser, en la práctica, el mismo
+  tipo de contenido — listas acumuladas de comandos auto-aprobados con
+  rutas absolutas de esta máquina; `settings.local.json` además tenía un
+  JWT de sesión pegado en texto plano (token de prueba usado contra
+  `localhost:8000`). `.specify/feature.json` es un puntero de una sola
+  línea al feature activo, reescrito en cada sesión por los scripts de
+  `speckit` — estado de sesión local, no config del proyecto. Los tres se
+  excluyeron explícitamente vía `.gitignore`, decisión confirmada por el
+  usuario antes de continuar.
+- **Escaneo de secretos**: `grep` amplio (claves de API, contraseñas,
+  tokens, `-----BEGIN`, JWT literales) sobre todo lo que se iba a añadir
+  (`frontend/src`, config de frontend, `specs/001` a `specs/017`,
+  `roadmap/`, ficheros de texto de `bocetos/`). Sin hallazgos reales:
+  todas las coincidencias eran nombres de variable/campo legítimos del
+  propio código o menciones de diseño en los specs (cómo se firma un JWT,
+  no el secreto en sí). Ningún `.env` fuera de `backend/` (ya cubierto
+  desde `cb00815`).
+
+Verificación previa al commit: `git status --short` completo en la raíz
+tras el `git add` (no un `git add -A` a ciegas), y `git diff --cached
+--name-only | grep -iE "node_modules|dist/|settings.*json|feature.json|
+t13-debug|t13-wizard"` sin resultados, confirmando que ninguno de los
+ficheros excluidos se coló en el commit.
+
+Archivos: `.gitignore` (actualizado), `frontend/` completo,
+`specs/001 - Identidad y Roles/` a `specs/017 - Panel de administración/`,
+`bocetos/`, `roadmap/`, `.claude/skills/`, `.specify/` (salvo
+`feature.json`). Task: `specs/019 - Control de versiones del proyecto
+completo/tasks.md`.
+
 ## 2026-08-27 — Numeración de factura no segura ante concurrencia (specs/008 T11)
 
 Corregido de raíz el bug confirmado el 2026-08-26 (specs/018 T5,

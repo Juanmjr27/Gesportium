@@ -24,3 +24,23 @@ Thumbs.db
 
 # Generated files (facturas PDF, módulo 008)
 backend/storage/
+
+# Frontend (Node/Vite) — ya cubierto también por frontend/.gitignore, duplicado
+# aquí para que el root .gitignore por sí solo baste como referencia completa
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/coverage/
+frontend/*.local
+
+# Capturas sueltas de verificación manual (specs/019 T2) — no son parte del
+# código fuente, quedaron en frontend/ como residuo de una sesión de debug
+frontend/t13-debug.png
+frontend/t13-wizard-paso1.png
+
+# Claude Code: config/permisos locales de esta máquina (specs/019 T2)
+.claude/settings.json
+.claude/settings.local.json
+
+# spec-kit: puntero de feature activo, estado de sesión local (specs/019 T2)
+.specify/feature.json
