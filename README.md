@@ -65,6 +65,21 @@ Gesportium/
 └── roadmap/         Roadmap de producto
 ```
 
+## Proceso de desarrollo
+
+Cada módulo se desarrolló con un flujo spec-driven completo (spec → plan →
+tareas → implementación → verificación), documentado en [`specs/`](specs/),
+trabajando con [Claude](https://claude.com/product/claude-code) como
+asistente de desarrollo en cada fase — desde la redacción de las propias
+specs hasta la implementación y la revisión de código. Ningún hallazgo se
+daba por cerrado sin verificación explícita: tests automatizados con
+`pytest`, y verificación manual con Playwright contra el backend y Ollama
+reales antes de marcar una tarea como hecha. [`CHANGELOG.md`](CHANGELOG.md)
+recoge varios casos concretos de bugs reales detectados y corregidos durante
+ese proceso (condición de carrera en la numeración de facturas,
+contaminación de la base de datos de tests, validación inconsistente entre
+schema y base de datos).
+
 ## Módulos
 
 Cada módulo tiene su especificación completa (`spec.md`, `plan.md`,
