@@ -1,7 +1,9 @@
+import threading
 import uuid
 from datetime import date, datetime, time, timedelta
 
 import pytest
+from sqlalchemy import text
 
 from app.modules.identidad import service as identidad_service
 from app.modules.membresias import service as membresias_service
@@ -10,6 +12,7 @@ from app.modules.pagos import service as pagos_service
 from app.modules.pagos.models import Factura, HistorialAccionPago, Pago
 from app.modules.sedes.models import Sede
 from app.modules.socios.models import Socio
+from tests.conftest import test_engine
 
 
 def _token_admin(db_session):
@@ -419,3 +422,42 @@ def test_gestor_sede_lista_solo_remesas_de_su_sede(client, db_session, sede_id):
     assert response.status_code == 200
     ids_sede = {r["sede_id"] for r in response.json()}
     assert ids_sede == {str(sede_id)}
+
+
+def test_numeracion_factura_no_colisiona_bajo_concurrencia():
+    """specs/008 T11: _siguiente_numero_factura() usaba db.query(Factura).
+    count() dentro de la propia transacción del caller, así que varias
+    transacciones concurrentes (cada una viendo la tabla vacía hasta su
+    propio commit) podían calcular el mismo secuencial. Simula N
+    transacciones solapadas en conexiones/hilos independientes contra la
+    misma BD de test, cada una reteniendo su transacción abierta hasta que
+    todas han pedido su número (barrera), para forzar el solape real que
+    antes producía la colisión, y confirma que el nuevo mecanismo
+    (SEQUENCE de Postgres) sigue dando números únicos.
+    """
+    n_hilos = 10
+    barrera = threading.Barrier(n_hilos)
+    numeros: list[str] = []
+    lock = threading.Lock()
+
+    def _pedir_numero():
+        connection = test_engine.connect()
+        transaction = connection.begin()
+        try:
+            barrera.wait(timeout=5)
+            secuencial = connection.execute(text("SELECT nextval('factura_numero_seq')")).scalar()
+            numero = f"F-{date.today().year}-{secuencial:06d}"
+            with lock:
+                numeros.append(numero)
+        finally:
+            transaction.commit()
+            connection.close()
+
+    hilos = [threading.Thread(target=_pedir_numero) for _ in range(n_hilos)]
+    for hilo in hilos:
+        hilo.start()
+    for hilo in hilos:
+        hilo.join()
+
+    assert len(numeros) == n_hilos
+    assert len(set(numeros)) == n_hilos

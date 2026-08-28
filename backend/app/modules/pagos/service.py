@@ -2,6 +2,7 @@ import uuid
 from datetime import date, datetime
 from decimal import Decimal
 
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from app.modules.membresias import service as membresias_service
@@ -32,8 +33,16 @@ def _registrar_auditoria(db: Session, entidad_tipo: str, entidad_id: uuid.UUID, 
 
 
 def _siguiente_numero_factura(db: Session) -> str:
-    total = db.query(Factura).count()
-    return f"F-{date.today().year}-{total + 1:06d}"
+    """Unicidad garantizada a nivel de BD vía SEQUENCE de Postgres
+    (`factura_numero_seq`, migración 9f3b6d2a1c47): nextval() es atómico y
+    no transaccional, así que dos transacciones concurrentes (o dos tests
+    aislados por SAVEPOINT) nunca obtienen el mismo secuencial — a
+    diferencia de contar filas de `facturas` dentro de la propia
+    transacción, que sí colisionaba (specs/008 T11, confirmado en
+    specs/018 T5).
+    """
+    secuencial = db.execute(text("SELECT nextval('factura_numero_seq')")).scalar()
+    return f"F-{date.today().year}-{secuencial:06d}"
 
 
 def generar_factura(db: Session, pago: Pago, autor_id: uuid.UUID | None = None) -> Factura:

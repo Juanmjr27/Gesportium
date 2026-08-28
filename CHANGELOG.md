@@ -1,5 +1,47 @@
 # Changelog
 
+## 2026-08-27 — Numeración de factura no segura ante concurrencia (specs/008 T11)
+
+Corregido de raíz el bug confirmado el 2026-08-26 (specs/018 T5,
+"Confirmación empírica"): `_siguiente_numero_factura()`
+(`backend/app/modules/pagos/service.py`) calculaba el `numero` de factura
+contando filas de `Factura` **dentro de la propia transacción** del
+caller, así que dos transacciones concurrentes (dos cobros simultáneos en
+producción, o dos tests aislados por SAVEPOINT) podían calcular el mismo
+secuencial. En tests esto se manifestaba como colisión de fichero PDF
+(`storage/facturas/{numero}.pdf`, `PermissionError` intermitente en
+Windows); en producción con tráfico real habría sido un bug de negocio —
+dos facturas emitidas con el mismo número.
+
+Fix: `numero` ahora se deriva de una SEQUENCE de Postgres
+(`factura_numero_seq`, migración
+`backend/alembic/versions/9f3b6d2a1c47_factura_numero_seq.py`). `nextval()`
+es atómico y no transaccional (no se ve afectado por rollback ni por el
+punto de partida de la transacción del caller), así que garantiza
+unicidad real bajo concurrencia sin necesidad de locking manual
+(`SELECT ... FOR UPDATE`) ni reintentos ante colisión — se descartó ese
+enfoque por ser más código para el mismo resultado, dado que Postgres ya
+ofrece la primitiva correcta. El formato de negocio
+`F-{año}-{secuencial:06d}` no cambia; la constraint `UNIQUE` ya existente
+en `Factura.numero` queda como cinturón de seguridad, no como mecanismo
+primario de unicidad.
+
+Verificación: test nuevo
+`test_numeracion_factura_no_colisiona_bajo_concurrencia`
+(`backend/tests/modules/test_pagos.py`) — 10 hilos con conexiones y
+transacciones independientes, sincronizados con una barrera para forzar
+el solape real que antes producía la colisión, confirma `numero` únicos.
+Además, `tests/modules/test_pagos.py` en solitario, **30 rondas seguidas,
+0 fallos** (antes del fix: 2 de 8 rondas fallaban con `PermissionError`
+por la colisión de `numero`, ver specs/018 T5). Con esto, el hallazgo
+colateral de specs/018 queda cerrado y quitado de "Pendientes" (ver más
+abajo).
+
+Archivos: `backend/app/modules/pagos/service.py`,
+`backend/alembic/versions/9f3b6d2a1c47_factura_numero_seq.py`,
+`backend/tests/modules/test_pagos.py`. Task:
+`specs/008 - Pagos y facturación/tasks.md` T11.
+
 ## 2026-08-26 — Aislamiento de entorno de tests (specs/018) + fixes de módulos 007/003 detectados en verificación de 016
 
 Housekeeping previo (bloqueaba el resto): `backend/` estaba sin trackear en
@@ -569,7 +611,7 @@ de la librería bcrypt.
 - [ ] Tipado de salida sin modelo estricto en asistente_ia (BorradorOut.contenido)
 - [ ] Fallback de Ollama no cubre errores de parseo JSON (solo errores de red)
 - [x] Aislamiento pytest↔servidor de desarrollo (BD compartida causando fallos intermitentes por contaminación cruzada) — corregido 2026-08-26 (specs/018, ver entrada de esta fecha)
-- [ ] `test_pagos.py::test_socio_descarga_su_propia_factura` (y potencialmente otros tests de facturas) intermitente por colisión de nombre de fichero PDF entre tests (`_siguiente_numero_factura()` no es único entre tests aislados) — diagnosticado, ver `specs/018 - Aislamiento de entorno de tests/tasks.md` T5
+- [x] `test_pagos.py::test_socio_descarga_su_propia_factura` (y potencialmente otros tests de facturas) intermitente por colisión de nombre de fichero PDF entre tests (`_siguiente_numero_factura()` no es único entre tests aislados) — corregido de raíz 2026-08-27 (specs/008 T11, ver entrada de esta fecha; ya no solo diagnosticado, ver `specs/018 - Aislamiento de entorno de tests/tasks.md` T5 para el historial)
 
 ## 17-08-2026 — 403 intermitente en dashboard KPIs (no reproducible)
 Se observó un 403 puntual en GET /dashboard/kpis con juan@gesportium.com que hacía desaparecer también el menú lateral del panel admin. Investigado a fondo (código de autorización, registro en BD, pruebas controladas de 401/403) sin encontrar causa reproducible; no reprodujo ni en incógnito ni en sesión normal tras reintentar. Cerrado como artefacto transitorio de sesión (módulo 017 es implementación muy reciente). Si reaparece, capturar el token exacto del momento del fallo antes de recargar.
