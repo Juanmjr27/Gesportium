@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.modules.identidad.dependencies import require_roles
+from app.modules.identidad.dependencies import require_roles, verificar_acceso_por_sede
 from app.modules.identidad.models import Usuario
 from app.modules.membresias import service
 from app.modules.membresias.models import Membresia, PlanMembresia
@@ -37,15 +37,9 @@ def _obtener_membresia_o_404(db: Session, membresia_id: uuid.UUID) -> Membresia:
     return membresia
 
 
-def _verificar_acceso_membresia(db: Session, usuario: Usuario, membresia: Membresia):
+def _verificar_acceso_membresia(db: Session, usuario: Usuario, membresia: Membresia) -> None:
     socio = socios_service.obtener_socio(db, membresia.socio_id)
-    if usuario.rol == "admin":
-        return socio
-    if usuario.rol == "gestor_sede" and usuario.sede_id == socio.sede_id:
-        return socio
-    if usuario.rol == "socio" and usuario.id == socio.usuario_id:
-        return socio
-    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="No tiene permisos sobre esta membresía")
+    verificar_acceso_por_sede(usuario, socio.sede_id, propietario_id=socio.usuario_id, rol_propietario="socio")
 
 
 @router.post("/planes-membresia", response_model=PlanMembresiaOut, status_code=status.HTTP_201_CREATED)

@@ -7,8 +7,12 @@ from app.core.database import get_db
 from app.modules.entrenadores import service as entrenadores_service
 from app.modules.entrenadores.models import Entrenador, SocioAsignado
 from app.modules.entrenamiento.models import EjercicioRutina, PlanNutricional, Rutina
-from app.modules.entrenamiento.schemas import EjercicioOut, PlanNutricionalOut, RutinaOut
-from app.modules.identidad.dependencies import require_roles
+from app.modules.entrenamiento.schemas import (
+    EjercicioOut,
+    PlanNutricionalOut,
+    RutinaOut,
+)
+from app.modules.identidad.dependencies import require_roles, verificar_acceso_por_sede
 from app.modules.identidad.models import Usuario
 from app.modules.membresias.models import Membresia
 from app.modules.membresias.schemas import MembresiaDetail
@@ -40,18 +44,6 @@ def _obtener_socio_o_404(db: Session, socio_id: uuid.UUID) -> Socio:
     if socio is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Socio no encontrado")
     return socio
-
-
-def _es_propio_socio(usuario: Usuario, socio: Socio) -> bool:
-    return usuario.rol == "socio" and usuario.id == socio.usuario_id
-
-
-def _verificar_acceso_gestion(usuario: Usuario, socio: Socio) -> None:
-    if usuario.rol == "admin":
-        return
-    if usuario.rol == "gestor_sede" and usuario.sede_id == socio.sede_id:
-        return
-    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="No tiene permisos sobre este socio")
 
 
 def _construir_detalle(db: Session, socio: Socio) -> SocioDetail:
@@ -193,12 +185,11 @@ def obtener_socio(
     socio = _obtener_socio_o_404(db, socio_id)
 
     if usuario.rol in ("admin", "gestor_sede"):
-        _verificar_acceso_gestion(usuario, socio)
+        verificar_acceso_por_sede(usuario, socio.sede_id)
         return _construir_detalle(db, socio)
 
     if usuario.rol == "socio":
-        if not _es_propio_socio(usuario, socio):
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="No tiene permisos sobre este socio")
+        verificar_acceso_por_sede(usuario, socio.sede_id, propietario_id=socio.usuario_id, rol_propietario="socio")
         return SocioSelf.model_validate(socio)
 
     # entrenador: solo puede ver el detalle de socios que tiene asignados
@@ -217,7 +208,7 @@ def obtener_ficha_socio(
     socio = _obtener_socio_o_404(db, socio_id)
 
     if usuario.rol in ("admin", "gestor_sede"):
-        _verificar_acceso_gestion(usuario, socio)
+        verificar_acceso_por_sede(usuario, socio.sede_id)
     elif socio.id not in entrenadores_service.ids_socios_asignados(db, usuario.id):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="No tiene permisos sobre este socio")
 
@@ -235,8 +226,7 @@ def editar_socio(
     cambios = body.model_dump(exclude_unset=True)
 
     if usuario.rol == "socio":
-        if not _es_propio_socio(usuario, socio):
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="No tiene permisos sobre este socio")
+        verificar_acceso_por_sede(usuario, socio.sede_id, propietario_id=socio.usuario_id, rol_propietario="socio")
         if not set(cambios.keys()) <= CAMPOS_EDITABLES_PROPIO_SOCIO:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Solo puede editar sus datos de contacto")
         for campo, valor in cambios.items():
@@ -245,7 +235,7 @@ def editar_socio(
         db.refresh(socio)
         return SocioSelf.model_validate(socio)
 
-    _verificar_acceso_gestion(usuario, socio)
+    verificar_acceso_por_sede(usuario, socio.sede_id)
     for campo, valor in cambios.items():
         setattr(socio, campo, valor)
     db.commit()
@@ -260,10 +250,9 @@ def eliminar_socio(
     usuario: Usuario = Depends(require_roles("admin", "gestor_sede")),
 ):
     socio = _obtener_socio_o_404(db, socio_id)
-    _verificar_acceso_gestion(usuario, socio)
+    verificar_acceso_por_sede(usuario, socio.sede_id)
 
     service.dar_baja_socio(db, socio, autor_id=usuario.id)
-    return None
 
 
 @router.post("/{socio_id}/documentos", response_model=DocumentoSocioOut, status_code=status.HTTP_201_CREATED)
@@ -274,7 +263,7 @@ def subir_documento(
     usuario: Usuario = Depends(require_roles("admin", "gestor_sede")),
 ):
     socio = _obtener_socio_o_404(db, socio_id)
-    _verificar_acceso_gestion(usuario, socio)
+    verificar_acceso_por_sede(usuario, socio.sede_id)
 
     documento = DocumentoSocio(socio_id=socio.id, **body.model_dump())
     db.add(documento)
@@ -291,7 +280,7 @@ def transferir_socio(
     usuario: Usuario = Depends(require_roles("admin", "gestor_sede")),
 ):
     socio = _obtener_socio_o_404(db, socio_id)
-    _verificar_acceso_gestion(usuario, socio)
+    verificar_acceso_por_sede(usuario, socio.sede_id)
 
     if body.nueva_sede_id == socio.sede_id:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="El socio ya pertenece a esa sede")
@@ -311,7 +300,7 @@ def anadir_nota(
     usuario: Usuario = Depends(require_roles("admin", "gestor_sede")),
 ):
     socio = _obtener_socio_o_404(db, socio_id)
-    _verificar_acceso_gestion(usuario, socio)
+    verificar_acceso_por_sede(usuario, socio.sede_id)
 
     nota = NotaSocio(socio_id=socio.id, autor_id=usuario.id, contenido=body.contenido)
     db.add(nota)

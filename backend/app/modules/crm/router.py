@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.core.rate_limit import permitir
 from app.modules.crm import service
-from app.modules.crm.models import InteraccionLead, Lead
+from app.modules.crm.models import Lead
 from app.modules.crm.schemas import (
     InteraccionLeadCreate,
     InteraccionLeadOut,
@@ -15,7 +15,7 @@ from app.modules.crm.schemas import (
     LeadOut,
     LeadUpdate,
 )
-from app.modules.identidad.dependencies import require_roles
+from app.modules.identidad.dependencies import require_roles, verificar_acceso_por_sede
 from app.modules.identidad.models import Usuario
 from app.modules.sedes.models import Sede
 from app.modules.socios.schemas import SocioDetail
@@ -35,16 +35,6 @@ def _obtener_lead_o_404(db: Session, lead_id: uuid.UUID) -> Lead:
     if lead is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Lead no encontrado")
     return lead
-
-
-def _verificar_acceso_lead(usuario: Usuario, lead: Lead) -> None:
-    if usuario.rol == "admin":
-        return
-    if usuario.rol == "gestor_sede" and usuario.sede_id == lead.sede_interes_id:
-        return
-    if usuario.rol == "comercial" and usuario.id == lead.comercial_id:
-        return
-    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="No tiene permisos sobre este lead")
 
 
 @router.post("", response_model=LeadOut, status_code=status.HTTP_201_CREATED)
@@ -82,7 +72,7 @@ def editar_lead(
     usuario: Usuario = Depends(require_roles("admin", "gestor_sede", "comercial")),
 ):
     lead = _obtener_lead_o_404(db, lead_id)
-    _verificar_acceso_lead(usuario, lead)
+    verificar_acceso_por_sede(usuario, lead.sede_interes_id, propietario_id=lead.comercial_id, rol_propietario="comercial")
 
     cambios = body.model_dump(exclude_unset=True)
     if cambios.get("estado") == "convertido":

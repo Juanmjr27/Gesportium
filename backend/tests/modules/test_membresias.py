@@ -126,8 +126,9 @@ def test_admin_puede_dar_alta_membresia_con_renovacion_calculada(client, db_sess
 
 
 def test_gestor_sede_no_puede_dar_alta_para_socio_de_otra_sede(client, db_session, sede_id):
-    from app.modules.sedes.models import Sede
     from datetime import time
+
+    from app.modules.sedes.models import Sede
 
     otra_sede = Sede(
         nombre="Otra sede", direccion="Otra calle", ciudad="Valencia", telefono="600999888",

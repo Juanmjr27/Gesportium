@@ -111,7 +111,6 @@ def forgot_password(body: ForgotPasswordRequest, db: Session = Depends(get_db)):
         service.generar_token_recuperacion(db, usuario)
         # Envío real de email fuera del alcance de este módulo (fastapi-mail
         # queda declarado como dependencia externa para el módulo que lo integre).
-    return None
 
 
 @router.post("/reset-password", status_code=status.HTTP_204_NO_CONTENT)
@@ -122,7 +121,6 @@ def reset_password(body: ResetPasswordRequest, db: Session = Depends(get_db)):
 
     usuario = db.get(Usuario, token_recuperacion.usuario_id)
     service.cambiar_password(db, usuario, body.password, token_recuperacion)
-    return None
 
 
 @router.get("/me", response_model=UsuarioResponse)

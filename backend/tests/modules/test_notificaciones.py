@@ -1,13 +1,16 @@
-import uuid
 from datetime import date, datetime, timedelta
 
 from app.modules.accesos import service as accesos_service
 from app.modules.clases import service as clases_service
-from app.modules.clases.models import Clase, Reserva
+from app.modules.clases.models import Clase
 from app.modules.entrenadores.models import Entrenador
 from app.modules.identidad import service as identidad_service
 from app.modules.membresias import service as membresias_service
-from app.modules.membresias.models import HistorialEstadosMembresia, Membresia, PlanMembresia
+from app.modules.membresias.models import (
+    HistorialEstadosMembresia,
+    Membresia,
+    PlanMembresia,
+)
 from app.modules.notificaciones import service as notificaciones_service
 from app.modules.notificaciones.models import Notificacion, PreferenciaNotificacion
 from app.modules.pagos import service as pagos_service

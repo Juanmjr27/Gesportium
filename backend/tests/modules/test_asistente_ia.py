@@ -6,7 +6,10 @@ import pytest
 
 from app.modules.asistente_ia import router as asistente_router
 from app.modules.asistente_ia.models import BorradorIA, MensajeIA
-from app.modules.asistente_ia.service import generar_contenido_borrador, generar_respuesta_chat
+from app.modules.asistente_ia.service import (
+    generar_contenido_borrador,
+    generar_respuesta_chat,
+)
 from app.modules.entrenadores.models import Entrenador, SocioAsignado
 from app.modules.entrenamiento.models import PlanNutricional, Rutina
 from app.modules.identidad import service as identidad_service

@@ -5,7 +5,7 @@ from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.modules.identidad.dependencies import require_roles
+from app.modules.identidad.dependencies import require_roles, verificar_acceso_por_sede
 from app.modules.identidad.models import Usuario
 from app.modules.pagos import service
 from app.modules.pagos.models import Factura, Pago, Remesa, RemesaPago
@@ -14,16 +14,6 @@ from app.modules.sedes.models import Sede
 from app.modules.socios.models import Socio
 
 router = APIRouter(tags=["pagos"])
-
-
-def _verificar_acceso_socio(usuario: Usuario, socio: Socio) -> None:
-    if usuario.rol == "admin":
-        return
-    if usuario.rol == "gestor_sede" and usuario.sede_id == socio.sede_id:
-        return
-    if usuario.rol == "socio" and usuario.id == socio.usuario_id:
-        return
-    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="No tiene permisos sobre estos pagos")
 
 
 def _construir_remesa_out(db: Session, remesa: Remesa) -> RemesaOut:
@@ -55,7 +45,7 @@ def historial_pagos(
     socio = db.get(Socio, socio_id)
     if socio is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Socio no encontrado")
-    _verificar_acceso_socio(usuario, socio)
+    verificar_acceso_por_sede(usuario, socio.sede_id, propietario_id=socio.usuario_id, rol_propietario="socio")
 
     pagos = db.query(Pago).filter(Pago.socio_id == socio_id).order_by(Pago.fecha.desc()).all()
     return [_construir_pago_out(db, pago) for pago in pagos]
@@ -73,7 +63,7 @@ def descargar_factura(
 
     pago = db.get(Pago, factura.pago_id)
     socio = db.get(Socio, pago.socio_id)
-    _verificar_acceso_socio(usuario, socio)
+    verificar_acceso_por_sede(usuario, socio.sede_id, propietario_id=socio.usuario_id, rol_propietario="socio")
 
     return FileResponse(factura.pdf_url, media_type="application/pdf", filename=f"{factura.numero}.pdf")
 
@@ -90,7 +80,7 @@ def anular_factura(
 
     pago = db.get(Pago, factura.pago_id)
     socio = db.get(Socio, pago.socio_id)
-    _verificar_acceso_socio(usuario, socio)
+    verificar_acceso_por_sede(usuario, socio.sede_id, propietario_id=socio.usuario_id, rol_propietario="socio")
 
     try:
         return service.anular_factura(db, factura, autor_id=usuario.id)
@@ -110,7 +100,7 @@ def reemitir_factura(
 
     pago = db.get(Pago, factura.pago_id)
     socio = db.get(Socio, pago.socio_id)
-    _verificar_acceso_socio(usuario, socio)
+    verificar_acceso_por_sede(usuario, socio.sede_id, propietario_id=socio.usuario_id, rol_propietario="socio")
 
     try:
         return service.reemitir_factura(db, factura, autor_id=usuario.id)

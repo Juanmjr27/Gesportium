@@ -7,7 +7,8 @@ from app.modules.clases.models import Clase, Reserva
 from app.modules.crm.models import Lead
 from app.modules.entrenadores.models import Entrenador
 from app.modules.identidad import service as identidad_service
-from app.modules.informes import ollama_client, router as informes_router
+from app.modules.informes import ollama_client
+from app.modules.informes import router as informes_router
 from app.modules.membresias import service as membresias_service
 from app.modules.membresias.models import PlanMembresia
 from app.modules.pagos import service as pagos_service

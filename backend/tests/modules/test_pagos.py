@@ -1,6 +1,6 @@
 import threading
 import uuid
-from datetime import date, datetime, time, timedelta
+from datetime import date, time, timedelta
 
 import pytest
 from sqlalchemy import text
@@ -9,7 +9,7 @@ from app.modules.identidad import service as identidad_service
 from app.modules.membresias import service as membresias_service
 from app.modules.membresias.models import CongelacionMembresia, Membresia, PlanMembresia
 from app.modules.pagos import service as pagos_service
-from app.modules.pagos.models import Factura, HistorialAccionPago, Pago
+from app.modules.pagos.models import Factura, HistorialAccionPago
 from app.modules.sedes.models import Sede
 from app.modules.socios.models import Socio
 from tests.conftest import test_engine

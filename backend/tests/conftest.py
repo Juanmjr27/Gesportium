@@ -3,12 +3,12 @@ from datetime import time
 from pathlib import Path
 
 import pytest
-from alembic import command
 from alembic.config import Config
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine, event, text
 from sqlalchemy.orm import sessionmaker
 
+from alembic import command
 from app.core.config import settings
 from app.core.database import get_db
 from app.main import app

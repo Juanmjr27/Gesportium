@@ -18,7 +18,7 @@ from app.modules.entrenadores.schemas import (
     SocioAsignadoOut,
 )
 from app.modules.identidad import service as identidad_service
-from app.modules.identidad.dependencies import require_roles
+from app.modules.identidad.dependencies import require_roles, verificar_acceso_por_sede
 from app.modules.identidad.models import Usuario
 from app.modules.sedes.models import Sede
 from app.modules.socios import service as socios_service
@@ -31,14 +31,6 @@ def _obtener_entrenador_o_404(db: Session, entrenador_id: uuid.UUID) -> Entrenad
     if entrenador is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Entrenador no encontrado")
     return entrenador
-
-
-def _verificar_acceso_gestion(usuario: Usuario, entrenador: Entrenador) -> None:
-    if usuario.rol == "admin":
-        return
-    if usuario.rol == "gestor_sede" and usuario.sede_id == entrenador.sede_id:
-        return
-    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="No tiene permisos sobre este entrenador")
 
 
 @router.post("", response_model=EntrenadorOut, status_code=status.HTTP_201_CREATED)
@@ -110,7 +102,7 @@ def obtener_entrenador(
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="No tiene permisos sobre este entrenador")
         return entrenador
 
-    _verificar_acceso_gestion(usuario, entrenador)
+    verificar_acceso_por_sede(usuario, entrenador.sede_id)
     return entrenador
 
 
@@ -122,7 +114,7 @@ def editar_entrenador(
     usuario: Usuario = Depends(require_roles("admin", "gestor_sede")),
 ):
     entrenador = _obtener_entrenador_o_404(db, entrenador_id)
-    _verificar_acceso_gestion(usuario, entrenador)
+    verificar_acceso_por_sede(usuario, entrenador.sede_id)
 
     for campo, valor in body.model_dump(exclude_unset=True).items():
         setattr(entrenador, campo, valor)
@@ -139,7 +131,7 @@ def eliminar_entrenador(
     usuario: Usuario = Depends(require_roles("admin", "gestor_sede")),
 ):
     entrenador = _obtener_entrenador_o_404(db, entrenador_id)
-    _verificar_acceso_gestion(usuario, entrenador)
+    verificar_acceso_por_sede(usuario, entrenador.sede_id)
 
     if not entrenador.activo:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="El entrenador ya está dado de baja")
@@ -183,7 +175,7 @@ def asignar_socio(
     usuario: Usuario = Depends(require_roles("admin", "gestor_sede")),
 ):
     entrenador = _obtener_entrenador_o_404(db, entrenador_id)
-    _verificar_acceso_gestion(usuario, entrenador)
+    verificar_acceso_por_sede(usuario, entrenador.sede_id)
 
     if not entrenador.activo:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="No se puede asignar socios a un entrenador dado de baja")
@@ -217,7 +209,7 @@ def desasignar_socio(
     usuario: Usuario = Depends(require_roles("admin", "gestor_sede")),
 ):
     entrenador = _obtener_entrenador_o_404(db, entrenador_id)
-    _verificar_acceso_gestion(usuario, entrenador)
+    verificar_acceso_por_sede(usuario, entrenador.sede_id)
 
     asignacion = (
         db.query(SocioAsignado)
@@ -232,7 +224,6 @@ def desasignar_socio(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Asignación no encontrada")
 
     service.desasignar_socio(db, asignacion)
-    return None
 
 
 @router.get("/{entrenador_id}/socios", response_model=list[SocioAsignadoOut])

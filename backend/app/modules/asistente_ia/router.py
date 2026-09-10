@@ -1,9 +1,9 @@
 import uuid
 from datetime import datetime
- 
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
- 
+
 from app.core.database import get_db
 from app.modules.asistente_ia import service
 from app.modules.asistente_ia.models import BorradorIA, ConversacionIA, MensajeIA
@@ -15,14 +15,17 @@ from app.modules.asistente_ia.schemas import (
     MensajeOut,
     WizardBorradorRequest,
 )
-from app.modules.asistente_ia.service import generar_contenido_borrador, generar_respuesta_chat
+from app.modules.asistente_ia.service import (
+    generar_contenido_borrador,
+    generar_respuesta_chat,
+)
 from app.modules.entrenadores.models import Entrenador, SocioAsignado
 from app.modules.entrenamiento import service as entrenamiento_service
 from app.modules.identidad.dependencies import require_roles
 from app.modules.identidad.models import Usuario
 from app.modules.membresias.models import Membresia, PlanMembresia
 from app.modules.socios.models import Socio
- 
+
 router = APIRouter(prefix="/asistente", tags=["asistente_ia"])
  
  

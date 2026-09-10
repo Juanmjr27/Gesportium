@@ -282,7 +282,6 @@ def cancelar_reserva(
             )
 
     service.cancelar_reserva(db, reserva, clase)
-    return None
 
 
 @router.get("/clases/{clase_id}/ocupacion", response_model=OcupacionOut)

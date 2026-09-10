@@ -1,5 +1,47 @@
 # Changelog
 
+## 2026-09-10 — Autorización centralizada, CI/CD y Dockerfile (specs/020 Fase 1)
+
+Primer módulo derivado de una revisión externa: un amigo ingeniero revisó el
+repo y entregó un documento con 12 puntos de mejora de ingeniería, matizados
+después por WhatsApp. Se reordenaron en 4 fases según el objetivo real del
+proyecto (portfolio para búsqueda de empleo, no un sistema que vaya a
+escalar) — ver specs/020/plan.md para el razonamiento completo del orden.
+
+Fase 1 (T1-T3), cerrada en esta entrada:
+
+**T1 — Autorización centralizada.** Las 5 comprobaciones de "¿puede este
+usuario tocar este recurso?" estaban duplicadas y ligeramente distintas
+entre `socios`, `entrenadores`, `pagos`, `sedes` y `crm`. Sustituidas por
+una única `verificar_acceso_por_sede()` en `identidad/dependencies.py`;
+`membresias` queda con un envoltorio fino que delega en ella. Test nuevo
+aislado (`test_identidad.py`) cubre los 4 casos (admin, gestor de sede,
+propietario del recurso, y ninguno de los anteriores).
+
+**T2 — CI/CD.** `.github/workflows/ci.yml` corre en cada push a `main` y en
+cada pull request: suite de pytest completa contra una Postgres temporal,
+`ruff` sobre el backend (linter nuevo, no existía ninguno) y build+lint del
+frontend. Al añadir `ruff` por primera vez salieron 409 avisos preexistentes
+del código ya escrito; 244 eran falsa alarma (el patrón `Depends()` de
+FastAPI, silenciado vía `backend/ruff.toml`), otros se corrigieron solos
+con `--fix` (mecánico, sin cambio de lógica), y quedan 128 sin tocar
+(sobre todo fechas/horas sin zona horaria) documentados en
+`specs/020/tasks.md` como pendiente de revisión futura. Badge de estado
+añadido al README.
+
+**T3 — Dockerfile.** `backend/Dockerfile` empaqueta el backend (Python 3.12,
+usuario no-root) para que corra igual en cualquier máquina sin instalar
+nada a mano; verificado construyendo la imagen y levantándola contra la
+Postgres real del host. Docker Compose (backend + Postgres + Ollama
+orquestados juntos) queda deliberadamente fuera de esta tarea — anotado
+como evolución futura en la Fase 4 (aparcada) de `specs/020/plan.md`.
+
+Archivos: `backend/app/modules/identidad/dependencies.py`,
+`backend/app/modules/{socios,entrenadores,pagos,sedes,crm,membresias}/router.py`,
+`backend/tests/modules/test_identidad.py`, `.github/workflows/ci.yml`,
+`backend/ruff.toml`, `backend/Dockerfile`, `backend/.dockerignore`,
+`README.md`. Task: `specs/020 - Mejoras de ingeniería (revisión externa)/tasks.md` T1-T3.
+
 ## 2026-08-28 — Control de versiones del proyecto completo (specs/019)
 
 Hallazgo colateral, del mismo tipo que specs/018: al comitear los fixes de

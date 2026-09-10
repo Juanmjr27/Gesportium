@@ -6,7 +6,12 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.modules.entrenadores.models import Entrenador, SocioAsignado
 from app.modules.entrenamiento import service
-from app.modules.entrenamiento.models import CumplimientoRutina, EjercicioRutina, PlanNutricional, Rutina
+from app.modules.entrenamiento.models import (
+    CumplimientoRutina,
+    EjercicioRutina,
+    PlanNutricional,
+    Rutina,
+)
 from app.modules.entrenamiento.schemas import (
     CompletarEjercicioBody,
     CumplimientoOut,

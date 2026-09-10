@@ -1,4 +1,10 @@
+import uuid
+
+import pytest
+from fastapi import HTTPException
+
 from app.modules.identidad import service
+from app.modules.identidad.dependencies import verificar_acceso_por_sede
 from app.modules.identidad.models import TokenRecuperacion, Usuario
 
 
@@ -140,3 +146,47 @@ def test_reset_password_con_token_valido(client, db_session, sede_id):
 def test_reset_password_token_invalido(client):
     response = client.post("/auth/reset-password", json={"token": "no-existe", "password": "nuevapassword123"})
     assert response.status_code == 400
+
+
+def test_verificar_acceso_por_sede_admin_siempre_pasa():
+    admin = Usuario(id=uuid.uuid4(), rol="admin", sede_id=None)
+    verificar_acceso_por_sede(admin, sede_id=uuid.uuid4())
+
+
+def test_verificar_acceso_por_sede_gestor_sede_coincide_pasa():
+    sede_id = uuid.uuid4()
+    gestor = Usuario(id=uuid.uuid4(), rol="gestor_sede", sede_id=sede_id)
+    verificar_acceso_por_sede(gestor, sede_id=sede_id)
+
+
+def test_verificar_acceso_por_sede_gestor_sede_distinta_falla():
+    gestor = Usuario(id=uuid.uuid4(), rol="gestor_sede", sede_id=uuid.uuid4())
+    with pytest.raises(HTTPException) as exc:
+        verificar_acceso_por_sede(gestor, sede_id=uuid.uuid4())
+    assert exc.value.status_code == 403
+
+
+def test_verificar_acceso_por_sede_propietario_coincide_pasa():
+    socio_id = uuid.uuid4()
+    socio = Usuario(id=socio_id, rol="socio", sede_id=None)
+    verificar_acceso_por_sede(
+        socio, sede_id=uuid.uuid4(), propietario_id=socio_id, rol_propietario="socio"
+    )
+
+
+def test_verificar_acceso_por_sede_propietario_distinto_falla():
+    socio = Usuario(id=uuid.uuid4(), rol="socio", sede_id=None)
+    with pytest.raises(HTTPException) as exc:
+        verificar_acceso_por_sede(
+            socio, sede_id=uuid.uuid4(), propietario_id=uuid.uuid4(), rol_propietario="socio"
+        )
+    assert exc.value.status_code == 403
+
+
+def test_verificar_acceso_por_sede_sin_rol_propietario_solo_admin_gestor():
+    # Caso de sedes/entrenadores: sin propietario_id/rol_propietario, ningún
+    # otro rol distinto de admin/gestor_sede puede pasar.
+    entrenador = Usuario(id=uuid.uuid4(), rol="entrenador", sede_id=uuid.uuid4())
+    with pytest.raises(HTTPException) as exc:
+        verificar_acceso_por_sede(entrenador, sede_id=uuid.uuid4())
+    assert exc.value.status_code == 403

@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.modules.identidad.dependencies import require_roles
+from app.modules.identidad.dependencies import require_roles, verificar_acceso_por_sede
 from app.modules.identidad.models import Usuario
 from app.modules.sedes import service
 from app.modules.sedes.models import Sede
@@ -20,14 +20,6 @@ def _obtener_sede_o_404(db: Session, sede_id: uuid.UUID) -> Sede:
     return sede
 
 
-def _verificar_acceso_sede(usuario: Usuario, sede_id: uuid.UUID) -> None:
-    if usuario.rol == "admin":
-        return
-    if usuario.rol == "gestor_sede" and usuario.sede_id == sede_id:
-        return
-    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="No tiene permisos sobre esta sede")
-
-
 @router.get("", response_model=list[SedePublic])
 def listar_sedes_publico(db: Session = Depends(get_db)):
     return db.query(Sede).filter(Sede.activa.is_(True)).all()
@@ -39,7 +31,7 @@ def obtener_sede(
     db: Session = Depends(get_db),
     usuario: Usuario = Depends(require_roles("admin", "gestor_sede")),
 ):
-    _verificar_acceso_sede(usuario, sede_id)
+    verificar_acceso_por_sede(usuario, sede_id)
     return _obtener_sede_o_404(db, sede_id)
 
 
@@ -63,7 +55,7 @@ def editar_sede(
     db: Session = Depends(get_db),
     usuario: Usuario = Depends(require_roles("admin", "gestor_sede")),
 ):
-    _verificar_acceso_sede(usuario, sede_id)
+    verificar_acceso_por_sede(usuario, sede_id)
     sede = _obtener_sede_o_404(db, sede_id)
 
     for campo, valor in body.model_dump(exclude_unset=True).items():
@@ -90,4 +82,3 @@ def eliminar_sede(
 
     sede.activa = False
     db.commit()
-    return None

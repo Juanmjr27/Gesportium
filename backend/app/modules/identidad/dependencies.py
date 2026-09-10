@@ -38,3 +38,19 @@ def require_roles(*roles: str):
         return usuario
 
     return dependency
+
+
+def verificar_acceso_por_sede(
+    usuario: Usuario,
+    sede_id: uuid.UUID,
+    *,
+    propietario_id: uuid.UUID | None = None,
+    rol_propietario: str | None = None,
+) -> None:
+    if usuario.rol == "admin":
+        return
+    if usuario.rol == "gestor_sede" and usuario.sede_id == sede_id:
+        return
+    if rol_propietario and usuario.rol == rol_propietario and propietario_id == usuario.id:
+        return
+    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="No tiene permisos sobre este recurso")

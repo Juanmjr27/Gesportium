@@ -4,7 +4,13 @@ from datetime import date
 
 from sqlalchemy.orm import Session
 
-from app.modules.entrenamiento.models import CumplimientoRutina, DIAS_SEMANA, EjercicioRutina, PlanNutricional, Rutina
+from app.modules.entrenamiento.models import (
+    DIAS_SEMANA,
+    CumplimientoRutina,
+    EjercicioRutina,
+    PlanNutricional,
+    Rutina,
+)
 
 
 def _normalizar_dia_semana(valor: str) -> str:

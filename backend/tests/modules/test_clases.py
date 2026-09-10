@@ -126,6 +126,7 @@ def test_crear_clase_con_entrenador_inactivo_devuelve_422(client, db_session, se
 
 def test_gestor_sede_no_puede_crear_clase_en_otra_sede(client, db_session, sede_id):
     from datetime import time as time_
+
     from app.modules.sedes.models import Sede
 
     otra_sede = Sede(
@@ -342,6 +343,7 @@ def test_entrenador_ve_ocupacion_solo_de_sus_clases(client, db_session, sede_id)
 
 def test_listar_clases_filtra_por_sede(client, db_session, sede_id):
     from datetime import time as time_
+
     from app.modules.sedes.models import Sede
 
     otra_sede = Sede(
@@ -429,6 +431,7 @@ def test_reasignar_por_baja_entrenador_cancela_clases_futuras(client, db_session
 
 def test_gestor_sede_no_puede_reasignar_entrenador_de_otra_sede(client, db_session, sede_id):
     from datetime import time as time_
+
     from app.modules.sedes.models import Sede
 
     otra_sede = Sede(
@@ -453,6 +456,7 @@ def test_gestor_sede_no_puede_reasignar_entrenador_de_otra_sede(client, db_sessi
 
 def test_reasignar_a_entrenador_de_otra_sede_es_rechazado(client, db_session, sede_id):
     from datetime import time as time_
+
     from app.modules.sedes.models import Sede
 
     otra_sede = Sede(
@@ -483,6 +487,7 @@ def test_clase_inexistente_devuelve_404(client, db_session):
 
 def test_socio_solo_ve_clases_de_su_propia_sede(client, db_session, sede_id):
     from datetime import time as time_
+
     from app.modules.sedes.models import Sede
 
     otra_sede = Sede(
@@ -516,6 +521,7 @@ def test_socio_solo_ve_clases_de_su_propia_sede(client, db_session, sede_id):
 
 def test_socio_no_puede_ver_detalle_de_clase_de_otra_sede(client, db_session, sede_id):
     from datetime import time as time_
+
     from app.modules.sedes.models import Sede
 
     otra_sede = Sede(
@@ -538,6 +544,7 @@ def test_socio_no_puede_ver_detalle_de_clase_de_otra_sede(client, db_session, se
 
 def test_socio_no_puede_reservar_clase_de_otra_sede(client, db_session, sede_id):
     from datetime import time as time_
+
     from app.modules.sedes.models import Sede
 
     otra_sede = Sede(

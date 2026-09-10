@@ -8,7 +8,13 @@ from sqlalchemy.orm import Session
 from app.modules.membresias import service as membresias_service
 from app.modules.membresias.models import Membresia, PlanMembresia
 from app.modules.notificaciones import service as notificaciones_service
-from app.modules.pagos.models import Factura, HistorialAccionPago, Pago, Remesa, RemesaPago
+from app.modules.pagos.models import (
+    Factura,
+    HistorialAccionPago,
+    Pago,
+    Remesa,
+    RemesaPago,
+)
 from app.modules.pagos.pdf import generar_pdf_factura
 from app.modules.socios.models import Socio
 
@@ -216,7 +222,7 @@ def generar_remesa(db: Session, sede_id: uuid.UUID, fecha: date, autor_id: uuid.
         .all()
     )
 
-    total = sum((p.importe for p in pagos), Decimal("0"))
+    total = sum((p.importe for p in pagos), Decimal(0))
     remesa = Remesa(sede_id=sede_id, fecha=fecha, total=total)
     db.add(remesa)
     db.flush()

@@ -1,12 +1,11 @@
 from datetime import date, datetime, time, timedelta
 
 from app.core.config import settings
-from app.modules.accesos.models import Acceso
 from app.modules.clases.models import Asistencia, Clase, Reserva
 from app.modules.entrenadores.models import Entrenador
 from app.modules.identidad import service as identidad_service
 from app.modules.membresias import service as membresias_service
-from app.modules.membresias.models import Membresia, PlanMembresia
+from app.modules.membresias.models import PlanMembresia
 from app.modules.socios.models import Socio
 
 TOTEM_HEADERS = {"X-Totem-Key": settings.totem_api_key}

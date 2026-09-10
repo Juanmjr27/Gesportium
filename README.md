@@ -1,5 +1,7 @@
 # Gesportium
 
+![CI](https://github.com/Juanmjr27/Gesportium/actions/workflows/ci.yml/badge.svg)
+
 Sistema de gestión para cadenas de gimnasios: socios, membresías, entrenadores,
 rutinas y planes nutricionales, pagos y facturación, control de acceso, CRM de
 leads, informes y un asistente de IA local que ayuda a socios y entrenadores.
