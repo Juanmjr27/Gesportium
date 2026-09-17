@@ -31,6 +31,10 @@
       Archivo: backend/app/modules/socios/schemas.py
       Test: backend/tests/modules/test_socios.py (test_put_socio_con_fecha_nacimiento_null_devuelve_422, test_put_socio_parcial_sigue_funcionando)
 
+- [X] T14 — Fix: `CAMPOS_EDITABLES_PROPIO_SOCIO` (schemas.py) incluía `fecha_nacimiento`, permitiendo que un socio cambiase su propia fecha de nacimiento vía `PUT /socios/{id}` — contradiciendo la regla original de este módulo (T6/T7: ese campo no es editable por el propio socio) y dejando en rojo el test `test_socio_no_puede_editar_fecha_nacimiento` en CI. Se había incluido pensando en que el wizard del asistente IA (016, Paso 1) necesitaría rellenarla cuando faltase, pero ese caso resultó inalcanzable con el modelo de datos actual: `fecha_nacimiento` es `NOT NULL` en BD (models.py) y `SocioCreate` la exige siempre — ningún flujo (`POST /socios`, `POST /auth/register`) puede crear un `Socio` sin ella. Se quitó `fecha_nacimiento` de `CAMPOS_EDITABLES_PROPIO_SOCIO` y se reescribió el comentario para documentar la exclusión. Detectado verificando specs/020 (Fase 1, CI).
+      Archivo: backend/app/modules/socios/schemas.py
+      Test: backend/tests/modules/test_socios.py (test_socio_no_puede_editar_fecha_nacimiento)
+
 ## Trabajo adicional realizado (fuera de la lista original, solicitado explícitamente)
 - Actualizada la validación de baja de sede del módulo 002 (`backend/app/modules/sedes/service.py`,
   función `tiene_socios_activos`) para consultar la entidad `Socio` real en lugar del `Usuario`

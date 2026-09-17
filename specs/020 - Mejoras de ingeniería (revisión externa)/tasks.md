@@ -57,6 +57,7 @@
       suite completa de pytest 268 passed, 1 failed (mismo fallo preexistente
       de `test_socio_no_puede_editar_fecha_nacimiento`, sin relación); `npm
       run lint` y `npm run build` del frontend sin cambios, ambos en verde
+      CI reveló un test preexistente en rojo (`test_socio_no_puede_editar_fecha_nacimiento`) — corregido, ver specs/003/tasks.md T14.
 
 - [X] T3 — Dockerfile básico para el backend
       Archivo: `backend/Dockerfile`

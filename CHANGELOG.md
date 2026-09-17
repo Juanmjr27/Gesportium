@@ -1,5 +1,28 @@
 # Changelog
 
+## 2026-09-17 — Corrección: un socio no puede editar su fecha de nacimiento (specs/003 T14 / specs/020)
+
+Detectado por la CI de specs/020 (Fase 1, primer push): `test_socio_no_puede_editar_fecha_nacimiento`
+(specs/003) estaba en rojo porque `CAMPOS_EDITABLES_PROPIO_SOCIO`
+(`socios/schemas.py`) incluía `fecha_nacimiento` entre los campos que un
+socio puede editar de sí mismo — se añadió en el módulo 016 para un caso
+concreto (wizard completando un perfil con fecha de nacimiento vacía) que
+resultó ser inalcanzable: `Socio.fecha_nacimiento` es `NOT NULL` en BD,
+`SocioCreate` la exige siempre, y ningún flujo (ni `/auth/register`, que
+solo crea `Usuario`) crea un `Socio` sin ella.
+
+Corregido quitando `fecha_nacimiento` de `CAMPOS_EDITABLES_PROPIO_SOCIO`,
+restaurando la regla original del módulo 003 (un socio no puede cambiar su
+propia fecha de nacimiento; solo admin/gestor_sede pueden). No relacionado
+con el bug de `fecha_nacimiento: null` → 500 (specs/003 T13), ya resuelto
+aparte.
+
+Suite completa: 269 passed, 0 failed — primer 100% en verde del proyecto.
+
+Archivos: `backend/app/modules/socios/schemas.py`. Tasks:
+`specs/003 - Socios/tasks.md` T14, `specs/020 - Mejoras de ingeniería
+(revisión externa)/tasks.md` (nota bajo T2).
+
 ## 2026-09-10 — Autorización centralizada, CI/CD y Dockerfile (specs/020 Fase 1)
 
 Primer módulo derivado de una revisión externa: un amigo ingeniero revisó el

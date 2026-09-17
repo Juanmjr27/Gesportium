@@ -41,11 +41,14 @@ class SocioUpdate(BaseModel):
 
 
 # Campos que el propio socio puede editar de sus datos de contacto (FR7).
-# `fecha_nacimiento` se incluye porque el wizard del asistente IA (016,
-# Paso 1) permite rellenarla cuando falta, guardándola vía este mismo
-# endpoint (no crea uno nuevo).
+# `fecha_nacimiento` se excluye a propósito: un socio no puede cambiar su
+# propia fecha de nacimiento (regla original de 003). Se incluyó en su día
+# pensando en que el wizard del asistente IA (016, Paso 1) la rellenaría
+# cuando faltase, pero ese caso es inalcanzable con el modelo de datos
+# actual — todo Socio nace siempre con fecha_nacimiento obligatoria
+# (NOT NULL en BD, exigida por SocioCreate; ningún flujo crea un Socio sin
+# ella). Detectado verificando specs/020.
 CAMPOS_EDITABLES_PROPIO_SOCIO = {
-    "fecha_nacimiento",
     "telefono",
     "direccion",
     "contacto_emergencia_nombre",
