@@ -174,7 +174,7 @@ def test_socio_puede_ver_su_propia_membresia(client, db_session, sede_id):
 
 
 def test_socio_no_puede_ver_membresia_ajena(client, db_session, sede_id):
-    usuario_a, socio_a = _crear_socio_completo(db_session, sede_id, "socio-a-membresias@test.com")
+    usuario_a, _socio_a = _crear_socio_completo(db_session, sede_id, "socio-a-membresias@test.com")
     usuario_b, socio_b = _crear_socio_completo(db_session, sede_id, "socio-b-membresias@test.com")
     plan = _crear_plan(db_session)
     membresia_b = _crear_membresia(db_session, socio_b, plan, autor_id=usuario_b.id)

@@ -1,5 +1,33 @@
 # Changelog
 
+## 2026-09-21 — Fijar versión de ruff en CI y corregir 48 RUF059 (specs/020 T13)
+
+La CI se puso en rojo en el run de GitHub Actions del commit 3c65e38 por un
+motivo distinto al esperado: `backend/ruff.toml` no fija versión de ruff y
+el workflow tampoco (`pip install -r requirements.txt ruff` instala siempre
+la última disponible). Entre ruff 0.15.22 y 0.16.0 el conjunto de reglas
+activas por defecto pasó de ~61 a ~414 (se activaron sin tocar config
+RUF059, DTZ011, DTZ003 y SIM102), así que el mismo código que antes pasaba
+limpio ahora falla, sin que nadie haya tocado nada — confirmado con
+bisección de versiones: 0.15.22 → "All checks passed!"; 0.16.0 → "Found 128
+errors" (coincide exacto con los 128 pendientes de la nota de T2).
+
+Corregido fijando `ruff==0.15.22` en `.github/workflows/ci.yml` y
+resolviendo los 48 RUF059 (unused-unpacked-variable) de esos 128, con
+`ruff check --select RUF059 --unsafe-fixes --fix` (renombrado mecánico de
+variables de tupla sin usar, sin cambios de lógica). Los 79 DTZ011/DTZ003 y
+el 1 SIM102 restantes quedan fuera de alcance (lógica de fechas/negocio
+real, revisión aparte).
+
+Verificación real: `ruff check app tests` → "All checks passed!"; suite
+completa de pytest con Postgres real → 269 passed, 0 failed (sin cambios
+respecto al resultado anterior).
+
+Archivos: `.github/workflows/ci.yml`,
+`backend/tests/modules/{test_asistente_ia,test_entrenadores,
+test_entrenamiento,test_membresias,test_notificaciones,test_pagos}.py`.
+Task: `specs/020 - Mejoras de ingeniería (revisión externa)/tasks.md` T13.
+
 ## 2026-09-17 — Corrección: un socio no puede editar su fecha de nacimiento (specs/003 T14 / specs/020)
 
 Detectado por la CI de specs/020 (Fase 1, primer push): `test_socio_no_puede_editar_fecha_nacimiento`

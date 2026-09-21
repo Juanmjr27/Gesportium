@@ -74,6 +74,37 @@
       y la petición a `/docs`. Contenedor detenido tras la verificación
       (`--rm`, se autodestruye)
 
+- [X] T13 — Fijar versión de ruff en CI (evita que un ruff nuevo rompa la
+      CI sin que se toque código) + corregir los 48 RUF059
+      (unused-unpacked-variable) de los 128 pendientes de T2. Los 79
+      DTZ011/DTZ003 y el 1 SIM102 quedan fuera de alcance de esta tarea
+      (afectan a lógica de fechas/negocio real, necesitan revisión aparte,
+      no mecánica)
+      Archivos: `.github/workflows/ci.yml`,
+      `backend/tests/modules/{test_asistente_ia,test_entrenadores,
+      test_entrenamiento,test_membresias,test_notificaciones,test_pagos}.py`
+      Resultado: causa raíz confirmada por bisección de versiones —
+      `backend/ruff.toml` no fija versión de ruff y el workflow tampoco
+      (`pip install -r requirements.txt ruff` instala siempre la última
+      disponible); entre ruff 0.15.22 y 0.16.0 el conjunto de reglas activas
+      por defecto pasó de ~61 a ~414 (se activaron sin tocar config RUF059,
+      DTZ011, DTZ003 y SIM102), así que el mismo código que pasaba limpio con
+      0.15.22 ("All checks passed!") falla con 0.16.0 ("Found 128 errors" —
+      coincide exacto con los 128 de la nota de T2). Corregido: (1)
+      `.github/workflows/ci.yml` ahora instala `ruff==0.15.22` en vez de
+      `ruff` a secas; (2) instalado temporalmente ruff 0.16.8 y ejecutado
+      `ruff check app tests --select RUF059 --unsafe-fixes --fix`, que
+      renombró las 48 variables de tuplas sin usar (p.ej. `usuario_s, socio
+      = ...` → `_usuario_s, socio = ...`) en los 6 archivos de test listados
+      arriba — diff revisado, solo renombrados, sin cambios de lógica.
+      Verificación real: reinstalado ruff 0.15.22 (la versión fijada) →
+      `ruff check app tests` → "All checks passed!"; suite completa de
+      pytest con Postgres real (Docker) → 269 passed, 0 failed (mismo
+      resultado que antes del cambio, los renombrados no afectan ejecución).
+      Quedan pendientes 79 DTZ011/DTZ003 + 1 SIM102 (requieren revisión de
+      lógica de fechas/negocio, no mecánica) — ya sin riesgo de que la CI se
+      rompa sola otra vez, porque ruff queda fijado en 0.15.22
+
 ## Fase 2 — Calidad del código
 
 - [ ] T4 — Separar tests unitarios de tests de integración en

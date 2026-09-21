@@ -330,7 +330,7 @@ def test_promocion_lista_espera_notifica_plaza_liberada(db_session, sede_id):
     entrenador = _crear_entrenador(db_session, sede_id)
     clase = _crear_clase(db_session, sede_id, entrenador.id, aforo_maximo=1)
 
-    usuario_a, socio_a = _crear_socio_completo(db_session, sede_id, "socio-a-lista@test.com")
+    _usuario_a, socio_a = _crear_socio_completo(db_session, sede_id, "socio-a-lista@test.com")
     usuario_b, socio_b = _crear_socio_completo(db_session, sede_id, "socio-b-lista@test.com")
 
     reserva_a = clases_service.reservar_clase(db_session, clase, socio_a.id)

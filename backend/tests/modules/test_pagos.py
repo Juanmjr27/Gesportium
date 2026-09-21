@@ -179,8 +179,8 @@ def test_socio_ve_su_propio_historial_de_pagos(client, db_session, sede_id):
 
 
 def test_socio_no_ve_historial_de_pagos_ajeno(client, db_session, sede_id):
-    usuario_a, socio_a = _crear_socio_completo(db_session, sede_id, "socio-a-pagos@test.com")
-    usuario_b, socio_b = _crear_socio_completo(db_session, sede_id, "socio-b-pagos@test.com")
+    _usuario_a, socio_a = _crear_socio_completo(db_session, sede_id, "socio-a-pagos@test.com")
+    usuario_b, _socio_b = _crear_socio_completo(db_session, sede_id, "socio-b-pagos@test.com")
 
     token_b = identidad_service.create_access_token(usuario_b)
     response = client.get(f"/pagos/{socio_a.id}", headers={"Authorization": f"Bearer {token_b}"})
@@ -229,7 +229,7 @@ def test_socio_descarga_su_propia_factura(client, db_session, sede_id):
 
 def test_socio_no_descarga_factura_ajena(client, db_session, sede_id):
     usuario_a, socio_a = _crear_socio_completo(db_session, sede_id, "socio-a2-pagos@test.com")
-    usuario_b, socio_b = _crear_socio_completo(db_session, sede_id, "socio-b2-pagos@test.com")
+    usuario_b, _socio_b = _crear_socio_completo(db_session, sede_id, "socio-b2-pagos@test.com")
     plan = _crear_plan(db_session)
     membresia = _crear_membresia(db_session, socio_a, plan, autor_id=usuario_a.id)
     pago = pagos_service.generar_cobro_pendiente(db_session, membresia, plan)

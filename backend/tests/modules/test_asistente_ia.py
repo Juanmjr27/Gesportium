@@ -89,7 +89,7 @@ def _crear_borrador(
 
 
 def test_socio_envia_mensaje_y_recibe_respuesta(client, db_session, sede_id, monkeypatch):
-    usuario, socio = _crear_socio(db_session, sede_id)
+    usuario, _socio = _crear_socio(db_session, sede_id)
     token = identidad_service.create_access_token(usuario)
     monkeypatch.setattr(asistente_router, "generar_respuesta_chat", lambda historial, mensaje: "Abrimos de 7 a 22.")
 
@@ -106,7 +106,7 @@ def test_socio_envia_mensaje_y_recibe_respuesta(client, db_session, sede_id, mon
 
 
 def test_mensaje_si_ollama_no_responde_devuelve_503_sin_bloquear(client, db_session, sede_id, monkeypatch):
-    usuario, socio = _crear_socio(db_session, sede_id)
+    usuario, _socio = _crear_socio(db_session, sede_id)
     token = identidad_service.create_access_token(usuario)
     monkeypatch.setattr(asistente_router, "generar_respuesta_chat", lambda historial, mensaje: None)
 
@@ -122,7 +122,7 @@ def test_mensaje_si_ollama_no_responde_devuelve_503_sin_bloquear(client, db_sess
 
 
 def test_historial_vacio_si_no_hay_conversacion(client, db_session, sede_id):
-    usuario, socio = _crear_socio(db_session, sede_id)
+    usuario, _socio = _crear_socio(db_session, sede_id)
     token = identidad_service.create_access_token(usuario)
 
     response = client.get("/asistente/historial", headers={"Authorization": f"Bearer {token}"})
@@ -131,7 +131,7 @@ def test_historial_vacio_si_no_hay_conversacion(client, db_session, sede_id):
 
 
 def test_historial_devuelve_conversacion_ordenada(client, db_session, sede_id, monkeypatch):
-    usuario, socio = _crear_socio(db_session, sede_id)
+    usuario, _socio = _crear_socio(db_session, sede_id)
     token = identidad_service.create_access_token(usuario)
     monkeypatch.setattr(asistente_router, "generar_respuesta_chat", lambda historial, mensaje: "Respuesta 1")
     client.post("/asistente/mensaje", json={"contenido": "Pregunta 1"}, headers={"Authorization": f"Bearer {token}"})
@@ -145,8 +145,8 @@ def test_historial_devuelve_conversacion_ordenada(client, db_session, sede_id, m
 
 
 def test_socio_no_ve_historial_de_otro_socio(client, db_session, sede_id, monkeypatch):
-    usuario1, socio1 = _crear_socio(db_session, sede_id, "socio1-ia@test.com")
-    usuario2, socio2 = _crear_socio(db_session, sede_id, "socio2-ia@test.com")
+    usuario1, _socio1 = _crear_socio(db_session, sede_id, "socio1-ia@test.com")
+    usuario2, _socio2 = _crear_socio(db_session, sede_id, "socio2-ia@test.com")
     token1 = identidad_service.create_access_token(usuario1)
     token2 = identidad_service.create_access_token(usuario2)
 
@@ -159,7 +159,7 @@ def test_socio_no_ve_historial_de_otro_socio(client, db_session, sede_id, monkey
 
 
 def test_socio_solicita_borrador_de_rutina(client, db_session, sede_id, monkeypatch):
-    usuario, socio = _crear_socio(db_session, sede_id)
+    usuario, _socio = _crear_socio(db_session, sede_id)
     token = identidad_service.create_access_token(usuario)
     contenido = {"nombre": "Rutina IA", "ejercicios": EJERCICIOS}
     monkeypatch.setattr(asistente_router, "generar_contenido_borrador", lambda *a, **k: contenido)
@@ -176,7 +176,7 @@ def test_socio_solicita_borrador_de_rutina(client, db_session, sede_id, monkeypa
 
 
 def test_socio_solicita_borrador_de_plan_nutricional(client, db_session, sede_id, monkeypatch):
-    usuario, socio = _crear_socio(db_session, sede_id)
+    usuario, _socio = _crear_socio(db_session, sede_id)
     token = identidad_service.create_access_token(usuario)
     contenido = {"nombre": "Plan IA", "notas": "Bajo en grasas"}
     monkeypatch.setattr(asistente_router, "generar_contenido_borrador", lambda *a, **k: contenido)
@@ -193,7 +193,7 @@ def test_socio_solicita_borrador_de_plan_nutricional(client, db_session, sede_id
 
 
 def test_solicitar_borrador_rutina_sin_campos_obligatorios_de_rutina_falla_422(client, db_session, sede_id):
-    usuario, socio = _crear_socio(db_session, sede_id)
+    usuario, _socio = _crear_socio(db_session, sede_id)
     token = identidad_service.create_access_token(usuario)
     payload = {
         "tipo_borrador": "rutina",
@@ -208,7 +208,7 @@ def test_solicitar_borrador_rutina_sin_campos_obligatorios_de_rutina_falla_422(c
 
 
 def test_solicitar_borrador_plan_nutricional_sin_campos_obligatorios_falla_422(client, db_session, sede_id):
-    usuario, socio = _crear_socio(db_session, sede_id)
+    usuario, _socio = _crear_socio(db_session, sede_id)
     token = identidad_service.create_access_token(usuario)
     payload = {
         "tipo_borrador": "plan_nutricional",
@@ -235,7 +235,7 @@ def test_solicitar_borrador_plan_nutricional_sin_campos_obligatorios_falla_422(c
     ],
 )
 def test_solicitar_borrador_rutina_rechaza_valores_fuera_de_rango(client, db_session, sede_id, campo, valor):
-    usuario, socio = _crear_socio(db_session, sede_id)
+    usuario, _socio = _crear_socio(db_session, sede_id)
     token = identidad_service.create_access_token(usuario)
     payload = {**RUTINA_PAYLOAD, campo: valor}
 
@@ -247,7 +247,7 @@ def test_solicitar_borrador_rutina_rechaza_valores_fuera_de_rango(client, db_ses
 def test_solicitar_borrador_plan_nutricional_rechaza_comidas_al_dia_fuera_de_rango(
     client, db_session, sede_id, campo, valor
 ):
-    usuario, socio = _crear_socio(db_session, sede_id)
+    usuario, _socio = _crear_socio(db_session, sede_id)
     token = identidad_service.create_access_token(usuario)
     payload = {**PLAN_NUTRICIONAL_PAYLOAD, campo: valor}
 
@@ -256,7 +256,7 @@ def test_solicitar_borrador_plan_nutricional_rechaza_comidas_al_dia_fuera_de_ran
 
 
 def test_borrador_si_ollama_no_responde_devuelve_503(client, db_session, sede_id, monkeypatch):
-    usuario, socio = _crear_socio(db_session, sede_id)
+    usuario, _socio = _crear_socio(db_session, sede_id)
     token = identidad_service.create_access_token(usuario)
     monkeypatch.setattr(asistente_router, "generar_contenido_borrador", lambda *a, **k: None)
 
@@ -298,8 +298,8 @@ def test_datos_cuestionario_se_persiste_y_pendientes_lo_devuelve(client, db_sess
 
 def test_entrenador_ve_borradores_pendientes_de_sus_socios(client, db_session, sede_id):
     usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
-    usuario_s1, socio1 = _crear_socio(db_session, sede_id, "socio1-borr@test.com")
-    usuario_s2, socio2 = _crear_socio(db_session, sede_id, "socio2-borr@test.com")
+    _usuario_s1, socio1 = _crear_socio(db_session, sede_id, "socio1-borr@test.com")
+    _usuario_s2, socio2 = _crear_socio(db_session, sede_id, "socio2-borr@test.com")
     _asignar(db_session, entrenador.id, socio1.id)
     _crear_borrador(db_session, socio1.id)
     _crear_borrador(db_session, socio2.id)  # socio no asignado a este entrenador
@@ -314,7 +314,7 @@ def test_entrenador_ve_borradores_pendientes_de_sus_socios(client, db_session, s
 
 def test_entrenador_aprueba_borrador_de_rutina_crea_rutina_real(client, db_session, sede_id):
     usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
-    usuario_s, socio = _crear_socio(db_session, sede_id)
+    _usuario_s, socio = _crear_socio(db_session, sede_id)
     _asignar(db_session, entrenador.id, socio.id)
     borrador = _crear_borrador(db_session, socio.id, "rutina", {"nombre": "Rutina IA", "ejercicios": EJERCICIOS})
     token_e = identidad_service.create_access_token(usuario_e)
@@ -331,7 +331,7 @@ def test_entrenador_aprueba_borrador_de_rutina_crea_rutina_real(client, db_sessi
 
 def test_entrenador_aprueba_borrador_de_nutricion_crea_plan_real(client, db_session, sede_id):
     usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
-    usuario_s, socio = _crear_socio(db_session, sede_id)
+    _usuario_s, socio = _crear_socio(db_session, sede_id)
     _asignar(db_session, entrenador.id, socio.id)
     borrador = _crear_borrador(db_session, socio.id, "plan_nutricional", {"nombre": "Plan IA", "notas": "Bajo en grasas"})
     token_e = identidad_service.create_access_token(usuario_e)
@@ -345,7 +345,7 @@ def test_entrenador_aprueba_borrador_de_nutricion_crea_plan_real(client, db_sess
 
 def test_aprobar_borrador_con_contenido_invalido_rechaza_aprobacion(client, db_session, sede_id):
     usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
-    usuario_s, socio = _crear_socio(db_session, sede_id)
+    _usuario_s, socio = _crear_socio(db_session, sede_id)
     _asignar(db_session, entrenador.id, socio.id)
     borrador = _crear_borrador(db_session, socio.id, "rutina", {"nombre": "Rutina IA"})  # falta "ejercicios"
     token_e = identidad_service.create_access_token(usuario_e)
@@ -358,8 +358,8 @@ def test_aprobar_borrador_con_contenido_invalido_rechaza_aprobacion(client, db_s
 
 
 def test_entrenador_no_puede_aprobar_borrador_de_socio_no_asignado(client, db_session, sede_id):
-    usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
-    usuario_s, socio = _crear_socio(db_session, sede_id)
+    usuario_e, _entrenador = _crear_entrenador(db_session, sede_id)
+    _usuario_s, socio = _crear_socio(db_session, sede_id)
     borrador = _crear_borrador(db_session, socio.id)
     token_e = identidad_service.create_access_token(usuario_e)
 
@@ -369,7 +369,7 @@ def test_entrenador_no_puede_aprobar_borrador_de_socio_no_asignado(client, db_se
 
 def test_no_se_puede_aprobar_borrador_ya_revisado(client, db_session, sede_id):
     usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
-    usuario_s, socio = _crear_socio(db_session, sede_id)
+    _usuario_s, socio = _crear_socio(db_session, sede_id)
     _asignar(db_session, entrenador.id, socio.id)
     borrador = _crear_borrador(db_session, socio.id, estado="aprobado")
     token_e = identidad_service.create_access_token(usuario_e)
@@ -380,7 +380,7 @@ def test_no_se_puede_aprobar_borrador_ya_revisado(client, db_session, sede_id):
 
 def test_entrenador_rechaza_borrador_con_motivo(client, db_session, sede_id):
     usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
-    usuario_s, socio = _crear_socio(db_session, sede_id)
+    _usuario_s, socio = _crear_socio(db_session, sede_id)
     _asignar(db_session, entrenador.id, socio.id)
     borrador = _crear_borrador(db_session, socio.id)
     token_e = identidad_service.create_access_token(usuario_e)
@@ -402,7 +402,7 @@ def test_entrenador_rechaza_borrador_con_motivo(client, db_session, sede_id):
 
 def test_rechazar_borrador_sin_motivo_falla_422(client, db_session, sede_id):
     usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
-    usuario_s, socio = _crear_socio(db_session, sede_id)
+    _usuario_s, socio = _crear_socio(db_session, sede_id)
     _asignar(db_session, entrenador.id, socio.id)
     borrador = _crear_borrador(db_session, socio.id)
     token_e = identidad_service.create_access_token(usuario_e)
@@ -419,7 +419,7 @@ def test_rechazar_borrador_sin_motivo_falla_422(client, db_session, sede_id):
 
 def test_rechazar_borrador_con_motivo_vacio_falla_422(client, db_session, sede_id):
     usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
-    usuario_s, socio = _crear_socio(db_session, sede_id)
+    _usuario_s, socio = _crear_socio(db_session, sede_id)
     _asignar(db_session, entrenador.id, socio.id)
     borrador = _crear_borrador(db_session, socio.id)
     token_e = identidad_service.create_access_token(usuario_e)
@@ -434,7 +434,7 @@ def test_rechazar_borrador_con_motivo_vacio_falla_422(client, db_session, sede_i
 
 def test_entrenador_edita_borrador_pendiente_de_socio_asignado(client, db_session, sede_id):
     usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
-    usuario_s, socio = _crear_socio(db_session, sede_id)
+    _usuario_s, socio = _crear_socio(db_session, sede_id)
     _asignar(db_session, entrenador.id, socio.id)
     borrador = _crear_borrador(db_session, socio.id, "rutina", {"nombre": "Rutina IA", "ejercicios": EJERCICIOS})
     token_e = identidad_service.create_access_token(usuario_e)
@@ -455,8 +455,8 @@ def test_entrenador_edita_borrador_pendiente_de_socio_asignado(client, db_sessio
 
 
 def test_entrenador_no_puede_editar_borrador_de_socio_no_asignado(client, db_session, sede_id):
-    usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
-    usuario_s, socio = _crear_socio(db_session, sede_id)
+    usuario_e, _entrenador = _crear_entrenador(db_session, sede_id)
+    _usuario_s, socio = _crear_socio(db_session, sede_id)
     borrador = _crear_borrador(db_session, socio.id)
     token_e = identidad_service.create_access_token(usuario_e)
 
@@ -470,7 +470,7 @@ def test_entrenador_no_puede_editar_borrador_de_socio_no_asignado(client, db_ses
 
 def test_entrenador_no_puede_editar_borrador_ya_revisado(client, db_session, sede_id):
     usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
-    usuario_s, socio = _crear_socio(db_session, sede_id)
+    _usuario_s, socio = _crear_socio(db_session, sede_id)
     _asignar(db_session, entrenador.id, socio.id)
     borrador = _crear_borrador(db_session, socio.id, estado="aprobado")
     token_e = identidad_service.create_access_token(usuario_e)
@@ -484,7 +484,7 @@ def test_entrenador_no_puede_editar_borrador_ya_revisado(client, db_session, sed
 
 
 def test_socio_no_puede_ver_borradores_pendientes(client, db_session, sede_id):
-    usuario, socio = _crear_socio(db_session, sede_id)
+    usuario, _socio = _crear_socio(db_session, sede_id)
     token = identidad_service.create_access_token(usuario)
 
     response = client.get("/asistente/borradores-pendientes", headers={"Authorization": f"Bearer {token}"})

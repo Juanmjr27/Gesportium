@@ -59,7 +59,7 @@ def _crear_borrador(db_session, socio_id, tipo, contenido) -> BorradorIA:
 
 def test_entrenador_crea_rutina_para_socio_asignado(client, db_session, sede_id):
     usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
-    usuario_s, socio = _crear_socio(db_session, sede_id)
+    _usuario_s, socio = _crear_socio(db_session, sede_id)
     _asignar(db_session, entrenador.id, socio.id)
     token = identidad_service.create_access_token(usuario_e)
 
@@ -75,8 +75,8 @@ def test_entrenador_crea_rutina_para_socio_asignado(client, db_session, sede_id)
 
 
 def test_entrenador_no_puede_crear_rutina_para_socio_no_asignado(client, db_session, sede_id):
-    usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
-    usuario_s, socio = _crear_socio(db_session, sede_id)
+    usuario_e, _entrenador = _crear_entrenador(db_session, sede_id)
+    _usuario_s, socio = _crear_socio(db_session, sede_id)
     token = identidad_service.create_access_token(usuario_e)
 
     response = client.post(
@@ -88,7 +88,7 @@ def test_entrenador_no_puede_crear_rutina_para_socio_no_asignado(client, db_sess
 
 
 def test_socio_ve_sus_propias_rutinas(client, db_session, sede_id):
-    usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
+    _usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
     usuario_s, socio = _crear_socio(db_session, sede_id)
     _asignar(db_session, entrenador.id, socio.id)
     entrenamiento_service.crear_rutina(db_session, entrenador.id, socio.id, "Fuerza", EJERCICIOS)
@@ -100,9 +100,9 @@ def test_socio_ve_sus_propias_rutinas(client, db_session, sede_id):
 
 
 def test_socio_no_puede_ver_rutinas_ajenas(client, db_session, sede_id):
-    usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
-    usuario_s1, socio1 = _crear_socio(db_session, sede_id, "socio1-entr@test.com")
-    usuario_s2, socio2 = _crear_socio(db_session, sede_id, "socio2-entr@test.com")
+    _usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
+    _usuario_s1, socio1 = _crear_socio(db_session, sede_id, "socio1-entr@test.com")
+    usuario_s2, _socio2 = _crear_socio(db_session, sede_id, "socio2-entr@test.com")
     _asignar(db_session, entrenador.id, socio1.id)
     entrenamiento_service.crear_rutina(db_session, entrenador.id, socio1.id, "Fuerza", EJERCICIOS)
 
@@ -113,7 +113,7 @@ def test_socio_no_puede_ver_rutinas_ajenas(client, db_session, sede_id):
 
 def test_no_se_puede_editar_rutina_archivada(client, db_session, sede_id):
     usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
-    usuario_s, socio = _crear_socio(db_session, sede_id)
+    _usuario_s, socio = _crear_socio(db_session, sede_id)
     _asignar(db_session, entrenador.id, socio.id)
     rutina = entrenamiento_service.crear_rutina(db_session, entrenador.id, socio.id, "Fuerza", EJERCICIOS)
     token = identidad_service.create_access_token(usuario_e)
@@ -147,7 +147,7 @@ def test_entrenador_crea_plan_nutricional(client, db_session, sede_id):
 
 
 def test_socio_marca_cumplimiento_es_idempotente_por_dia(client, db_session, sede_id):
-    usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
+    _usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
     usuario_s, socio = _crear_socio(db_session, sede_id)
     _asignar(db_session, entrenador.id, socio.id)
     rutina = entrenamiento_service.crear_rutina(db_session, entrenador.id, socio.id, "Fuerza", EJERCICIOS)
@@ -176,9 +176,9 @@ def test_socio_marca_cumplimiento_es_idempotente_por_dia(client, db_session, sed
 
 
 def test_socio_no_puede_completar_ejercicio_de_rutina_ajena(client, db_session, sede_id):
-    usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
-    usuario_s1, socio1 = _crear_socio(db_session, sede_id, "socio1b-entr@test.com")
-    usuario_s2, socio2 = _crear_socio(db_session, sede_id, "socio2b-entr@test.com")
+    _usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
+    _usuario_s1, socio1 = _crear_socio(db_session, sede_id, "socio1b-entr@test.com")
+    usuario_s2, _socio2 = _crear_socio(db_session, sede_id, "socio2b-entr@test.com")
     _asignar(db_session, entrenador.id, socio1.id)
     rutina = entrenamiento_service.crear_rutina(db_session, entrenador.id, socio1.id, "Fuerza", EJERCICIOS)
 
@@ -195,7 +195,7 @@ def test_socio_no_puede_completar_ejercicio_de_rutina_ajena(client, db_session, 
 
 def test_entrenador_ve_cumplimiento_de_su_rutina(client, db_session, sede_id):
     usuario_e, entrenador = _crear_entrenador(db_session, sede_id)
-    usuario_s, socio = _crear_socio(db_session, sede_id)
+    _usuario_s, socio = _crear_socio(db_session, sede_id)
     _asignar(db_session, entrenador.id, socio.id)
     rutina = entrenamiento_service.crear_rutina(db_session, entrenador.id, socio.id, "Fuerza", EJERCICIOS)
 

@@ -231,7 +231,7 @@ def test_desasignar_socio_establece_fecha_fin(client, db_session, sede_id):
 
 def test_entrenador_ve_solo_sus_socios_asignados(client, db_session, sede_id):
     usuario1, entrenador1 = _crear_entrenador(db_session, sede_id, "entrenador-socios1@test.com")
-    usuario2, entrenador2 = _crear_entrenador(db_session, sede_id, "entrenador-socios2@test.com")
+    usuario2, _entrenador2 = _crear_entrenador(db_session, sede_id, "entrenador-socios2@test.com")
     socio = _crear_socio(db_session, sede_id)
     token_gestor = _token_gestor(db_session, sede_id)
 
