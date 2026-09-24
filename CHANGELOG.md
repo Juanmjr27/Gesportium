@@ -1,5 +1,86 @@
 # Changelog
 
+## 2026-09-24 — Validación explícita de duración inválida en calcular_proxima_renovacion (specs/020 T16)
+
+T15 detectó que `calcular_proxima_renovacion` (`backend/app/modules/
+membresias/service.py`) lanzaba un `KeyError` sin controlar al buscar
+`duracion` directamente en `MESES_POR_DURACION`. Corregido siguiendo el
+patrón ya existente en el módulo (`reactivar_membresia`,
+`cancelar_membresia`: `raise ValueError(...)` en el service, capturado en
+el router como `HTTPException`): ahora valida explícitamente antes de
+acceder al diccionario y lanza `ValueError("Duración de membresía no
+válida: '<valor>'")`. Añadida también defensa en profundidad en
+`POST /membresias` (`membresias/router.py`), que ahora captura ese
+`ValueError` y devuelve 422 — aunque hoy `duracion` ya está acotada por
+Pydantic (`Literal["mensual", "trimestral", "anual"]`) en
+`PlanMembresiaCreate`, así que este error no es alcanzable vía la API
+actual, solo una red de seguridad explícita. Actualizado el test de T15
+que comprobaba el `KeyError` para que ahora compruebe el `ValueError` y
+su mensaje.
+
+Verificación real: `pytest -m unit -q` → 9 passed (mismo número que T15);
+`pytest -q` sin filtro → 278 passed, sin regresiones; `ruff check app
+tests` → "All checks passed!".
+
+Archivos: `backend/app/modules/membresias/service.py`,
+`backend/app/modules/membresias/router.py`,
+`backend/tests/modules/test_membresias_unitarios.py`.
+Task: `specs/020 - Mejoras de ingeniería (revisión externa)/tasks.md` T16.
+
+## 2026-09-24 — Alcance de tests unitarios propuesto + primera ronda implementada (specs/020 T14, T15)
+
+T14: revisados los 15 `service.py` de `backend/app/modules/` y propuesta
+una lista priorizada de 40 funciones con lógica de negocio real (128 casos
+de test), organizada en 5 tiers por riesgo (financiero, acceso/seguridad,
+reservas/disponibilidad, validación/decisiones, dashboards/formateo).
+Documentada íntegra en `tasks.md` bajo T14. Decidido no implementar las 40
+de golpe: se empieza por las 2 funciones de mayor riesgo del Tier 1
+(dependen de ellas todas las fechas de renovación y facturación del
+sistema), el resto queda como backlog para rondas futuras.
+
+T15: primera ronda de tests unitarios reales, `_sumar_meses` y
+`calcular_proxima_renovacion` en `backend/app/modules/membresias/
+service.py`. Nuevo archivo `backend/tests/modules/test_membresias_
+unitarios.py` con `pytestmark = pytest.mark.unit` (convención de T4), sin
+`client`/`db_session` — llama a las funciones directamente. Cubre el
+comportamiento real del código (no asumido): `_sumar_meses` acota el día
+al último día válido del mes destino vía `calendar.monthrange` (31 enero +
+1 mes → 28 febrero en año normal, 29 en bisiesto, sin overflow a marzo);
+`calcular_proxima_renovacion` lanza `KeyError` con una duración
+desconocida al no usar `.get()` sobre `MESES_POR_DURACION`.
+
+Verificación real: `pytest -m unit -q` → 9 passed (antes 0 recogidos);
+`pytest -m integration -q` → 269 passed, sin cambios; `pytest -q` sin
+filtro → 278 passed (269 + 9 nuevos); `ruff check app tests` → "All checks
+passed!".
+
+Archivos: `specs/020 - Mejoras de ingeniería (revisión externa)/tasks.md`
+(T14, T15), `backend/tests/modules/test_membresias_unitarios.py`.
+Task: `specs/020 - Mejoras de ingeniería (revisión externa)/tasks.md` T14,
+T15.
+
+## 2026-09-24 — Separar tests unitarios de integración con markers de pytest (specs/020 T4)
+
+Elegido markers de pytest en vez de carpetas: los 15 archivos de
+`backend/tests/modules/` ya están bien organizados por módulo
+(`test_socios.py`, `test_pagos.py`, etc.) y reorganizar por carpetas
+rompería esa organización sin necesidad. Añadido `backend/pytest.ini` con
+dos markers registrados (`unit`, `integration`) y la línea `pytestmark =
+pytest.mark.integration` en los 15 archivos de `backend/tests/modules/` —
+todos los tests actuales son de integración (usan `client`/`db_session`
+contra una Postgres real), todavía no existe ningún test unitario.
+Convención para el futuro documentada con un comentario en
+`test_accesos.py`.
+
+Verificación real: `pytest --markers` lista los markers sin avisos de
+"unknown marker"; `pytest -m integration -q` → 269 passed; `pytest -m unit
+-q` → 0 recogidos (confirma el filtro); `pytest -q` sin filtro → 269
+passed, sin cambios de comportamiento; `ruff check app tests` → "All
+checks passed!".
+
+Archivos: `backend/pytest.ini`, `backend/tests/modules/*.py` (15 archivos).
+Task: `specs/020 - Mejoras de ingeniería (revisión externa)/tasks.md` T4.
+
 ## 2026-09-21 — Fijar versión de ruff en CI y corregir 48 RUF059 (specs/020 T13)
 
 La CI se puso en rojo en el run de GitHub Actions del commit 3c65e38 por un

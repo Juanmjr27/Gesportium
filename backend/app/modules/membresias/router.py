@@ -94,14 +94,17 @@ def crear_membresia(
     if not plan.activo:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="El plan de membresía no está activo")
 
-    membresia = service.crear_membresia(
-        db,
-        socio_id=socio.id,
-        plan=plan,
-        fecha_inicio=body.fecha_inicio or date.today(),
-        renovacion_automatica=body.renovacion_automatica,
-        autor_id=usuario.id,
-    )
+    try:
+        membresia = service.crear_membresia(
+            db,
+            socio_id=socio.id,
+            plan=plan,
+            fecha_inicio=body.fecha_inicio or date.today(),
+            renovacion_automatica=body.renovacion_automatica,
+            autor_id=usuario.id,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc))
     return membresia
 
 

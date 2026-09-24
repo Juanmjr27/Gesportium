@@ -30,6 +30,8 @@ def _sumar_meses(fecha: date, meses: int) -> date:
 
 
 def calcular_proxima_renovacion(fecha_inicio: date, duracion: str) -> date:
+    if duracion not in MESES_POR_DURACION:
+        raise ValueError(f"Duración de membresía no válida: '{duracion}'")
     return _sumar_meses(fecha_inicio, MESES_POR_DURACION[duracion])
 
 
