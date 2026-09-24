@@ -7,6 +7,12 @@ from app.modules.identidad import service as identidad_service
 from app.modules.membresias import service as membresias_service
 from app.modules.membresias.models import PlanMembresia
 from app.modules.socios.models import Socio
+import pytest
+
+# Todos los tests de este archivo son de integracion (usan client + db_session
+# contra Postgres real). Un archivo de tests unitarios nuevo debe llevar en su
+# lugar: pytestmark = pytest.mark.unit
+pytestmark = pytest.mark.integration
 
 TOTEM_HEADERS = {"X-Totem-Key": settings.totem_api_key}
 

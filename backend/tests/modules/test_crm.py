@@ -2,6 +2,9 @@ from app.modules.crm.models import InteraccionLead, Lead
 from app.modules.identidad import service as identidad_service
 from app.modules.identidad.models import Usuario
 from app.modules.socios.models import Socio
+import pytest
+
+pytestmark = pytest.mark.integration
 
 
 def _token_admin(db_session):

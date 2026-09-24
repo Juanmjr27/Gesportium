@@ -7,6 +7,8 @@ from app.modules.identidad import service
 from app.modules.identidad.dependencies import verificar_acceso_por_sede
 from app.modules.identidad.models import TokenRecuperacion, Usuario
 
+pytestmark = pytest.mark.integration
+
 
 def test_register_publico_socio_ok(client):
     response = client.post(

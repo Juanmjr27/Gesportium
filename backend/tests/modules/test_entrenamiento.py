@@ -10,6 +10,8 @@ from app.modules.entrenamiento.models import CumplimientoRutina, EjercicioRutina
 from app.modules.identidad import service as identidad_service
 from app.modules.socios.models import Socio
 
+pytestmark = pytest.mark.integration
+
 EJERCICIOS = [
     {"nombre": "Sentadilla", "series": 4, "repeticiones": 10, "dia_semana": "lunes", "descanso_segundos": 60},
     {"nombre": "Press banca", "series": 3, "repeticiones": 8, "dia_semana": "miercoles", "descanso_segundos": 90},

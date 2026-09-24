@@ -8,6 +8,9 @@ from app.modules.identidad import service as identidad_service
 from app.modules.membresias.models import PlanMembresia
 from app.modules.sedes.models import Sede
 from app.modules.socios.models import HistorialAccionSocio, Socio
+import pytest
+
+pytestmark = pytest.mark.integration
 
 EJERCICIOS_FICHA = [
     {"nombre": "Sentadilla", "series": 4, "repeticiones": 10, "dia_semana": "lunes", "descanso_segundos": 60},

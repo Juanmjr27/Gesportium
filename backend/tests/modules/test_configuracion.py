@@ -1,5 +1,8 @@
 from app.modules.configuracion.models import ConfiguracionGlobal, HistorialConfiguracion
 from app.modules.identidad import service as identidad_service
+import pytest
+
+pytestmark = pytest.mark.integration
 
 
 def _token_admin(db_session):

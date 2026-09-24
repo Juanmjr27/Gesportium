@@ -14,6 +14,8 @@ from app.modules.sedes.models import Sede
 from app.modules.socios.models import Socio
 from tests.conftest import test_engine
 
+pytestmark = pytest.mark.integration
+
 
 def _token_admin(db_session):
     admin = identidad_service.crear_usuario(db_session, "admin-pagos@test.com", "password123", "admin", None)

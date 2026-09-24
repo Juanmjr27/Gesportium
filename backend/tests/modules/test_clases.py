@@ -6,6 +6,9 @@ from app.modules.entrenadores.models import Entrenador
 from app.modules.identidad import service as identidad_service
 from app.modules.membresias.models import Membresia, PlanMembresia
 from app.modules.socios.models import Socio
+import pytest
+
+pytestmark = pytest.mark.integration
 
 
 def _token_admin(db_session):

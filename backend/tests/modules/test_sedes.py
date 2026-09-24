@@ -4,6 +4,9 @@ from datetime import date, time
 from app.modules.identidad import service as identidad_service
 from app.modules.sedes.models import Sede
 from app.modules.socios.models import Socio
+import pytest
+
+pytestmark = pytest.mark.integration
 
 
 def _crear_sede(db_session, **overrides) -> Sede:

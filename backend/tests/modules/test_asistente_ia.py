@@ -15,6 +15,8 @@ from app.modules.entrenamiento.models import PlanNutricional, Rutina
 from app.modules.identidad import service as identidad_service
 from app.modules.socios.models import Socio
 
+pytestmark = pytest.mark.integration
+
 EJERCICIOS = [
     {"nombre": "Sentadilla", "series": 4, "repeticiones": 10, "dia_semana": "lunes", "descanso_segundos": 60},
 ]

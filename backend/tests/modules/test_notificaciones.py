@@ -17,6 +17,9 @@ from app.modules.pagos import service as pagos_service
 from app.modules.socios import service as socios_service
 from app.modules.socios.models import Socio
 from app.modules.socios.schemas import SocioCreate
+import pytest
+
+pytestmark = pytest.mark.integration
 
 
 def _token_admin(db_session):
