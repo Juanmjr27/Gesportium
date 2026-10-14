@@ -21,6 +21,7 @@ services:
       DATABASE_URL: postgresql://gesportium:gesportium123@db:5432/gesportium
       JWT_SECRET_KEY: dev-secret
       TOTEM_API_KEY: dev-totem-key
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
     depends_on:
       db:
         condition: service_healthy
