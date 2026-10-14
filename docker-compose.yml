@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: gesportium
+      POSTGRES_PASSWORD: gesportium123
+      POSTGRES_DB: gesportium
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gesportium"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://gesportium:gesportium123@db:5432/gesportium
+      JWT_SECRET_KEY: dev-secret
+      TOTEM_API_KEY: dev-totem-key
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  db_data:
