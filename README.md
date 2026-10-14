@@ -182,6 +182,29 @@ cd backend
 pytest
 ```
 
+### Alternativa: todo con Docker Compose
+
+Si prefieres no instalar PostgreSQL ni Python en local, solo necesitas
+[Docker](https://www.docker.com/):
+
+```bash
+docker compose up --build -d                       # Levanta PostgreSQL y el backend
+docker compose exec backend alembic upgrade head   # Crea las tablas (solo la primera vez)
+curl http://127.0.0.1:8000/sedes                   # Debe responder 200 con []
+docker compose down                                # Para y elimina los contenedores
+```
+
+La documentación interactiva de la API queda en http://127.0.0.1:8000/docs.
+Los datos de PostgreSQL se guardan en el volumen `db_data` y sobreviven a
+`docker compose down`; para borrarlos, `docker compose down -v`.
+
+Este compose incluye solo el backend y la base de datos: el frontend
+(`npm run dev`) se arranca como en el paso 4. Dentro del contenedor,
+`localhost` es el propio contenedor, por eso `OLLAMA_BASE_URL` apunta a
+`http://host.docker.internal:11434` (el Ollama de tu máquina, con Docker
+Desktop); Ollama debe estar en marcha. Las contraseñas de `docker-compose.yml`
+son de desarrollo.
+
 ## Licencia
 
 [MIT](LICENSE) — Copyright (c) 2026 Juan Enrique Ruiz.
