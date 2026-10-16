@@ -1,0 +1,19 @@
+---
+- name: Preparar la carpeta de Gesportium
+  hosts: local
+  vars:
+    app_dir: "{{ ansible_facts['env']['HOME'] }}/gesportium-demo"
+  tasks:
+    - name: Crear la carpeta de la aplicación
+      ansible.builtin.file:
+        path: "{{ app_dir }}"
+        state: directory
+        mode: "0755"
+
+    - name: Crear el archivo de configuración
+      ansible.builtin.copy:
+        dest: "{{ app_dir }}/app.env"
+        content: |
+          APP_ENV=desarrollo
+          API_PORT=8000
+        mode: "0600"
